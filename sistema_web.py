@@ -195,7 +195,7 @@ def login():
                 session['user_id'] = user[0]
                 session['user_nome'] = user[1]
                 session['user_permissao'] = user[3]
-                flash(f'Bem-vindo, {user[1]}!', 'success')
+                # flash(f'Bem-vindo, {user[1]}!', 'success')
                 return redirect(url_for('dashboard'))
             else:
                 flash('E-mail ou senha inválidos.', 'danger')
