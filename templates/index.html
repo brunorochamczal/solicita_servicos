@@ -12,29 +12,30 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style_novo.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
   <style>
-    body { background:#d1e3ff; }
+    body { background: #d1e3ff; }
     .logout-button {
-      position:absolute; top:150px; left:15px;
-      background:#007bff; color:#fff; border:none; border-radius:5px;
-      padding:10px 20px; font-size:15px; text-decoration:none; display:inline-block; z-index:1000;
+      position: absolute; top: 150px; left: 15px;
+      background: #007bff; color: #fff; border: none; border-radius: 5px;
+      padding: 10px 20px; font-size: 15px; text-decoration: none; display: inline-block; z-index: 1000;
     }
-    .logout-button:hover { background:#0056b3; color:#fff; }
+    .logout-button:hover { background: #0056b3; color: #fff; }
     .help-button {
-      position:absolute; top:68px; right:15px;
-      background:#28a745; color:#fff; border:none; border-radius:5px;
-      padding:10px 20px; font-size:15px; text-decoration:none; display:inline-block; z-index:1000;
+      position: absolute; top: 68px; right: 15px;
+      background: #28a745; color: #fff; border: none; border-radius: 5px;
+      padding: 10px 20px; font-size: 15px; text-decoration: none; display: inline-block; z-index: 1000;
     }
-    .help-button:hover { background:#218838; color:#fff; }
-    .service_section .button-container { display:flex; flex-wrap:wrap; justify-content:center; }
-    .service_section .box { flex:1 1 30%; margin:15px; text-align:center; }
-    .service_section .box .img-box img { max-width:100%; height:auto; }
-    .side-image { width:100%; height:auto; display:block; margin-bottom:30px; }
-    .welcome-msg { text-align:center; color:#0056b3; font-size:18px; margin:10px 0 0; }
-    @media (max-width:768px) {
-      .logout-button, .help-button { position:static; display:block; width:100%; text-align:center; margin:8px 0; }
-      .side-image { display:none; }
-      .service_section .button-container { flex-direction:column; align-items:center; }
-      .service_section .box { width:80%; margin-bottom:20px; }
+    .help-button:hover { background: #218838; color: #fff; }
+    .service_section .button-container { display: flex; flex-wrap: wrap; justify-content: center; }
+    .service_section .box { flex: 1 1 30%; margin: 15px; text-align: center; }
+    .service_section .box .img-box img { max-width: 100%; height: auto; }
+    .side-image { width: 100%; height: auto; display: block; margin-bottom: 30px; }
+    .welcome-msg { text-align: center; color: #0056b3; font-size: 18px; margin: 10px 0 0; }
+    .box-disabled { opacity: 0.4; cursor: not-allowed; }
+    @media (max-width: 768px) {
+      .logout-button, .help-button { position: static; display: block; width: 100%; text-align: center; margin: 8px 0; }
+      .side-image { display: none; }
+      .service_section .button-container { flex-direction: column; align-items: center; }
+      .service_section .box { width: 80%; margin-bottom: 20px; }
     }
   </style>
 </head>
@@ -88,6 +89,7 @@
       <div class="content-wrapper">
         <img src="{{ url_for('static', filename='images/segunda.png') }}" alt="" class="side-image">
         <div class="button-container">
+
           {% if user_permissao == 'Administrador' %}
           <div class="box">
             <a href="{{ url_for('cadastros') }}">
@@ -96,25 +98,28 @@
             </a>
           </div>
           {% else %}
-          <div class="box" style="opacity:0.4; cursor:not-allowed;" title="Acesso restrito a administradores">
+          <div class="box box-disabled" title="Acesso restrito a administradores">
             <div>
               <div class="img-box"><img src="{{ url_for('static', filename='images/cadastros.png') }}" alt=""></div>
               <div class="detail-box"><h4>Cadastro<br><small>(sem permissão)</small></h4></div>
             </div>
           </div>
           {% endif %}
+
           <div class="box">
             <a href="{{ url_for('relatorio') }}">
               <div class="img-box"><img src="{{ url_for('static', filename='images/rela.png') }}" alt=""></div>
               <div class="detail-box"><h4>Relatório<br><small>(serviços solicitados)</small></h4></div>
             </a>
           </div>
+
           <div class="box">
             <a href="{{ url_for('servicos') }}">
               <div class="img-box"><img src="{{ url_for('static', filename='images/s1.png') }}" alt=""></div>
               <div class="detail-box"><h4>Serviços<br><small>(abertura e consulta)</small></h4></div>
             </a>
           </div>
+
         </div>
       </div>
     </div>
@@ -123,17 +128,48 @@
   <section class="info_section">
     <div class="container">
       <h4>Entre em contato</h4>
-      <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
-        <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Poço, Maceió – AL, 57025-340</p></div></a></div>
-        <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
-        <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
-      </div></div></div></div>
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <div class="info_items">
+            <div class="row">
+              <div class="col-md-4">
+                <a href="#">
+                  <div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div>
+                  <p>R. Pedro Paulino, 77 – Poço, Maceió – AL, 57025-340</p></div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="tel:+558221227858">
+                  <div class="item"><div class="img-box"><i class="fa fa-phone"></i></div>
+                  <p>+55 (82) 2122-7858</p></div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="mailto:solicitasenac@gmail.com">
+                  <div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div>
+                  <p>solicitasenac@gmail.com</p></div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <footer class="footer_section">
-    <div class="container"><p>&copy; <span id="displayDateYear"></span> Todos os direitos reservados</p></div>
+    <div class="container">
+      <p>&copy; <span id="displayDateYear"></span> Todos os direitos reservados</p>
+    </div>
   </footer>
 </div>
 
-<script src="{{ url_for('static', filename='js/jquery-3.
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+<script>
+  document.getElementById('displayDateYear').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
