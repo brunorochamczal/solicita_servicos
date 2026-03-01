@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Abrir Chamado – Solicita Senac</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo5.png') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+  <style>
+    body { background:#d1e3ff; margin:0; padding:0; }
+    label { color:#007bff; }
+    .form-row { display:flex; flex-wrap:wrap; margin-bottom:15px; gap:15px; }
+    .form-row > [class*="col-"] { flex:1; min-width:0; }
+    .btn-submit { background:#007bff; color:#fff; border:none; padding:12px 28px; border-radius:5px; font-size:15px; cursor:pointer; transition:background .3s; }
+    .btn-submit:hover { background:#0056b3; }
+    .form-select { width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; color:#333; margin-bottom:5px; }
+    .form-select:focus { border-color:#007bff; box-shadow:0 0 5px rgba(0,123,255,.5); outline:none; }
+    .form-control-file { background:#f0f0f0; border:1px solid #ccc; padding:10px; width:100%; border-radius:4px; }
+    .form-header { margin-top:22px; text-align:center; }
+    .voltar-button { position:absolute; top:170px; left:10px; background:#007bff; color:#fff; border:none; border-radius:5px; padding:5px 15px; font-size:15px; text-decoration:none; z-index:1000; display:inline-block; }
+    .voltar-button:hover { background:#0056b3; color:#fff; }
+    @media (max-width:767px) {
+      .form-row { flex-direction:column; }
+      .voltar-button { position:static; margin:10px 15px; display:block; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+<header class="header_section service-header">
+  <div class="header_top">
+    <div class="container-fluid">
+      <div class="contact_nav">
+        <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
+        <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="header_bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+        <img src="{{ url_for('static', filename='images/logo5.png') }}" alt="Logo">
+      </a>
+    </div>
+  </div>
+</header>
+
+<a class="voltar-button" href="{{ url_for('servicos') }}">
+  <i class="fa fa-arrow-left"></i> Voltar
+</a>
+
+<br><br>
+
+{# Flash messages #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="container mt-2">
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }} alert-dismissible fade show">
+    {{ message }}<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<section class="service_section layout_padding">
+  <div class="container form-container">
+    <div class="form-header"><h2><em>Abrir Chamado</em></h2></div>
+
+    <form method="POST" action="{{ url_for('abrir_chamado') }}" enctype="multipart/form-data">
+
+      {# Linha 1: Assunto + Funcionário #}
+      <div class="form-row">
+        <div class="col-md-6">
+          <label for="assunto">Assunto *</label>
+          <input type="text" class="form-control" name="assunto" id="assunto"
+                 placeholder="Digite o assunto" required>
+        </div>
+        <div class="col-md-6">
+          <label for="funcionario">Funcionário responsável *</label>
+          <input type="text" class="form-control" name="funcionario" id="funcionario"
+                 placeholder="Nome do funcionário" required>
+        </div>
+      </div>
+
+      {# Linha 2: Prazo + Local #}
+      <div class="form-row">
+        <div class="col-md-6">
+          <label for="prazo">Prazo</label>
+          <input type="date" name="prazo" class="form-control" id="prazo">
+        </div>
+        <div class="col-md-6">
+          <label for="local">Local do serviço *</label>
+          <select name="local" class="form-select" id="local" required>
+            <option value="" disabled selected>Selecione o local</option>
+            <option>Sala de aula</option>
+            <option>Laboratório</option>
+            <option>Administração</option>
+            <option>Área externa</option>
+            <option>Banheiro</option>
+            <option>Cozinha / Refeitório</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+
+      {# Linha 3: Setor + Unidade #}
+      <div class="form-row">
+        <div class="col-md-6">
+          <label for="setor">Setor do solicitante *</label>
+          <select name="setor" class="form-select" id="setor" required>
+            <option value="" disabled selected>Selecione o setor</option>
+            <option>TI</option>
+            <option>RH</option>
+            <option>Financeiro</option>
+            <option>Administrativo</option>
+            <option>Manutenção</option>
+            <option>Secretaria</option>
+            <option>Pedagógico</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="unidade">Unidade *</label>
+          <select name="unidade" class="form-select" id="unidade" required>
+            <option value="" disabled selected>Selecione a unidade</option>
+            <option>Carlos Milito - Maceió</option>
+            <option>Centro de Gastronomia - Maceió</option>
+            <option>Posto Avançado - Palmeira Dos Índios</option>
+            <option>Posto Avançado - União Dos Palmares</option>
+            <option>Sede Administrativa - Maceió</option>
+            <option>Unidade do Agreste - Arapiraca</option>
+            <option>Unidade Jaraguá - Em construção/Maceió</option>
+          </select>
+        </div>
+      </div>
+
+      {# Linha 4: Nome + E-mail #}
+      <div class="form-row">
+        <div class="col-md-6">
+          <label for="nome_solicitante">Nome do solicitante *</label>
+          <input type="text" name="nome_solicitante" class="form-control" id="nome_solicitante"
+                 placeholder="Digite seu nome" required>
+        </div>
+        <div class="col-md-6">
+          <label for="email_solicitante">E-mail do solicitante *</label>
+          <input type="email" name="email_solicitante" class="form-control" id="email_solicitante"
+                 placeholder="Digite seu e-mail" required>
+        </div>
+      </div>
+
+      {# Linha 5: Telefone #}
+      <div class="form-row">
+        <div class="col-md-6">
+          <label for="telefone">Telefone / WhatsApp</label>
+          <input type="tel" name="telefone" class="form-control" id="telefone" placeholder="(00) 00000-0000">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="informacoes_adicionais">Informações adicionais</label>
+        <textarea class="form-control" name="informacoes_adicionais" id="informacoes_adicionais"
+                  rows="4" placeholder="Descreva o problema detalhadamente"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="foto">Imagem anexa <small class="text-muted">(opcional – JPG, PNG, GIF até 16 MB)</small></label>
+        <input type="file" name="foto" class="form-control-file" id="foto" accept="image/*">
+      </div>
+
+      <button type="submit" class="btn-submit">
+        <i class="fa fa-paper-plane"></i> Enviar Chamado
+      </button>
+    </form>
+  </div>
+</section>
+
+<section class="info_section mt-4">
+  <div class="container">
+    <h4>Entre em contato</h4>
+    <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
+      <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Poço, Maceió – AL</p></div></a></div>
+      <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
+      <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
+    </div></div></div></div>
+  </div>
+</section>
+<footer class="footer_section">
+  <div class="container"><p>&copy; <span id="ano"></span> Todos os direitos reservados</p></div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+<script>
+  document.getElementById('ano').textContent = new Date().getFullYear();
+  // Máscara de telefone
+  document.getElementById('telefone').addEventListener('input', function(e) {
+    var x = e.target.value.replace(/\D/g,'').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+    e.target.value = !x[2] ? x[1] : '('+x[1]+') '+x[2]+(x[3] ? '-'+x[3] : '');
+  });
+</script>
+</body>
+</html>

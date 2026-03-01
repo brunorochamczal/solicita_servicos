@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" />
+    <!-- font awesome style -->
+    <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css" />
+    <!-- Custom styles for this template -->
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="../static/css/responsive.css" rel="stylesheet" />
+    <link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+    <title>Esqueceu a Senha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d1e3ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ff8a1d;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 8px;
+        }
+        .form-section h2 {
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: #dc3545;
+            display: none;
+        }
+        .inicial-button {
+            position: absolute;
+            top: 83px; /* Ajuste conforme necessário */
+            right: 15px; /* Posiciona o botão no lado direito */
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            z-index: 1000;
+        }
+        .inicial-button a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .inicial-button:hover {
+            background-color: #0056b3;
+        }
+        .navbar-toggler {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header_section">
+        <div class="header_top">
+            <div class="container-fluid">
+                <div class="contact_nav">
+                    <a href="">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <span>Ligue : +55 (82) 2122-7858</span>
+                    </a>
+                    <a href="">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <span>Email : solicitasenac@gmail.com</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="header_bottom">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg custom_nav-container">
+                    <a class="navbar-brand" href="login1.html">
+                        <span><img src="../static/images/logo5.png" alt="Logo"></span>
+                    </a>
+                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""></span>
+                    </button> 
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="inicial-button">
+        <a href="login1.html">
+            <i class="fa fa-sign-out"></i> Voltar
+        </a>
+    </div> 
+
+    <div class="container">
+        <div class="form-section">
+            <h2>Esqueceu a Senha</h2>
+            <form id="forgot-password-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <button type="submit" class="btn-submit">Enviar Instruções</button>
+                <div id="form-message" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+   <!-- footer section -->
+<script src="../static/js/jquery-3.4.1.min.js"></script>
+<script src="../static/js/bootstrap.js"></script>
+<script>
+    document.getElementById('forgot-password-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var email = document.getElementById('email').value;
+        var message = document.getElementById('form-message');
+        
+        // Simulação de envio de e-mail
+        if (validateEmail(email)) {
+            message.textContent = 'Instruções para redefinir a senha foram enviadas para o seu e-mail.';
+            message.style.color = '#007bff'; // Azul para sucesso
+        } else {
+            message.textContent = 'Por favor, insira um endereço de e-mail válido.';
+            message.style.color = '#dc3545'; // Vermelho para erro
+        }
+        message.style.display = 'block';
+    });
+
+    function validateEmail(email) {
+        var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+</script>
+
+</body>
+</html>

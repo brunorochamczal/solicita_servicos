@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Solicita Senac</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" />
+  <!-- font awesome style -->
+  <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css" />
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../static/css/responsive.css" rel="stylesheet" />
+
+  <link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+
+  <style>
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap; /* Permite que os inputs se movam para baixo se não houver espaço suficiente */
+  margin-bottom: 12px; /* Espaçamento entre linhas de inputs */
+}
+
+.form-row .form-group {
+  flex: 1; /* Cada input ocupa a mesma largura */
+  margin-right: 15px; /* Espaçamento entre inputs, exceto o último */
+}
+
+.form-row .form-group:last-child {
+  margin-right: 0; /* Remove o espaçamento do último input na linha */
+}
+
+@media (max-width: 767px) {
+  .form-row .form-group {
+    margin-right: 0; /* Remove o espaçamento lateral em telas pequenas */
+    flex: 1 0 100%; /* Cada input ocupa a largura total em telas pequenas */
+  }
+}
+.btn-submit {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+.form-group label {
+  color: #007bff;
+}
+
+.form-group input[type="file"] {
+  background-color: #f0f0f0;
+}
+
+.form-control-file {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.form-select {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+.form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+
+button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+        background-color: #00408d;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+
+    .button-container {
+  margin-top: -55px; /* Ajuste o valor para mover os botões mais para cima */
+  display: flex;
+  justify-content: center;
+  gap: 12px; /* Espaço entre os botões */
+}
+
+
+.form-header {
+  margin-top: 22px; /* Aumente esse valor para mover o título mais para baixo */
+  text-align: center; /* Mantém o título centralizado */
+}
+
+.form-header h2 {
+  margin-top: 0; /* Certifique-se de que não há margens adicionais no próprio título */
+}
+
+/* Adiciona um estilo ao botão de logout */
+.inicial-button {
+  position: absolute; /* Posiciona o botão de forma absoluta */
+  top: 170px; /* Distância do topo */
+  left: 1px; /* Distância da esquerda */
+  background-color: #007bff; /* Cor de fundo do botão */
+  color: #ffffff; /* Cor do texto do botão */
+  border: none; /* Remove a borda padrão */
+  border-radius: 5px; /* Cantos arredondados */
+  padding: 5px 15px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  text-align: center; /* Alinhamento do texto */
+  text-decoration: none; /* Remove o sublinhado */
+  display: inline-block; /* Faz o botão ficar no mesmo nível */
+  z-index: 1000; /* Garante que o botão fique acima de outros elementos */
+}
+
+.inicial-button a {
+  color: #ffffff; /* Cor do texto do link dentro do botão */
+  text-decoration: none; /* Remove o sublinhado do link */
+}
+
+.inicial-button:hover {
+  background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+}
+
+/* Fundo do formulário */
+.service_section {
+  background-color: #d1e3ff; /* Cor de fundo sólida */
+  padding: 20px; /* Espaçamento interno */
+  border-radius: 8px; /* Cantos arredondados (opcional) */
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="header_top">
+        <div class="container-fluid">
+          <div class="contact_nav">
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span>
+                Ligue : +55 (82) 2122-7858
+              </span>
+            </a>
+            <a href="">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span>
+                Email : solicitasenac@gmail.com
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="header_bottom sede-header">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="index.html">
+
+            </a>
+
+            
+              <span class=""> </span>
+            </button>
+
+
+            <div class="header_bottom">
+              <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg custom_nav-container ">
+                  <a class="navbar-brand" href="index1.html">
+                    <span>
+                      <img src="../static/images/logo5.png" alt="Logo">
+                    </span>
+                  </a>
+                
+
+          <!--  
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ">
+                <li class="nav-item ">
+                  <a class="nav-link" href="index.html">Página inicial <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="cadastros.html"> Cadastros</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="relatorio.html">Relatórios</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Serviços
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="service.html">Serviços</a>
+                    <a class="dropdown-item" href="sede.html">Sede</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+-->
+
+
+
+          </nav>
+        </div>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+<!--Botão para voltar para a tela inicial-->
+  <div class="inicial-button">
+    <a href="index.html">
+     <i class="fa fa-sign-out"></i> Voltar
+    </a>
+   </div>
+
+
+
+
+
+
+  <!-- Formulário -->
+<section class="service_section layout_padding">
+  <center>
+    <div class="header_bottom">
+      <div class="container-fluid">
+        <div class="button-container">
+    <!--    <a href="cadastros.html"><button>Cadastros</button></a> -->
+          
+      <!--  <a href="service.html"><button>Serviços</button></a> -->
+        </div>
+      </div>
+    </div>
+  </center>
+<br><br>
+  <div class="container form-container">
+    <div class="form-header">
+  <!--    <img src="images/logo5.png" alt="Logo"> -->
+      <h2><em>Confirmação de serviços</em></h2>
+    </div>
+    <form>
+      <div class="form-group form-row">
+        <div class="col-md-6">
+          <label for="assunto">Assunto</label>
+          <input type="text" class="form-control" id="assunto" placeholder="Digite o assunto">
+        </div>
+        <div class="col-md-6">
+          <label for="funcionarios">Funcionário</label>
+          <input type="text" class="form-control" id="funcionarios" placeholder="Digite o funcionário">
+        </div>
+      </div>
+
+      <div class="form-group form-row">
+        <div class="col-md-6">
+          <label for="prazo">Prazo</label>
+          <input type="date" class="form-control" id="prazo" placeholder="Digite o prazo">
+        </div>
+        <div class="col-md-6">
+          <label for="setor">Setor do solicitante</label>
+          <input type="text" class="form-control" id="setor" placeholder="Digite o setor">
+        </div>
+      </div>
+
+      <div class="form-group form-row">
+        <div class="col-md-6">
+          <label for="nome">Nome do solicitante</label>
+          <input type="text" class="form-control" id="nome" placeholder="Digite seu nome">
+        </div>
+        <div class="col-md-6">
+          <label for="email">E-mail do solicitante</label>
+          <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail" required>
+        </div>
+      </div>
+
+      <div class="form-group form-row">
+        <div class="col-md-6">
+          <label for="telefone">Telefone/WhatsApp do solicitante</label>
+          <input type="tel" class="form-control" id="telefone" placeholder="Digite seu telefone ou WhatsApp">
+        </div>
+
+
+        <div class="form-group form-row"> 
+          <div class="col-md-6">
+          <label for="categoria">Unidade</label>
+          <select class="form-select" id="categoria">
+            <option>Não definido</option>
+            <option value="" disabled selected>Selecione unidade</option>
+            <option value="manha">Carlos Milito - Maceió</option>
+            <option value="tarde">Centro de Gastronomia - Maceió</option>
+            <option value="noite">Posto Avançado - Palmeira Dos Índios</option>
+            <option value="manha">Posto Avançado - União Dos Palmares</option>
+            <option value="tarde">Sede Adminsitrativa - Maceió</option>
+            <option value="noite">Unidade do Agreste - Arapiraca</option>
+            <option value="noite">Unidade Jaraguá - Em construção/Maceió</option>
+          </select>
+        </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="descricao">Observações</label>
+        <textarea class="form-control" id="descricao" rows="3" placeholder="Descreva o problema"></textarea>
+      </div>
+
+      <div class="form-group form-row">
+        <div class="col-md-6">
+          <label for="categoria">Categoria</label>
+          <select class="form-select" id="categoria">
+            <option>Não definido</option>
+            <option>Categoria 1</option>
+            <option>Categoria 2</option>
+            <option>Categoria 3</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="prioridade">Prioridade</label>
+          <select class="form-select" id="prioridade">
+            <option>Não definido</option>
+            <option>Prioridade 1</option>
+            <option>Prioridade 2</option>
+            <option>Prioridade 3</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-button-container">
+        <button type="submit" class="btn-submit">Aceitar</button>
+        <button type="submit" class="btn-submit">Recusar</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+
+
+  <!-- info section -->
+  <section class="info_section">
+    <div class="container">
+      <h4>Entre em contato</h4>
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <div class="info_items">
+            <div class="row">
+              <div class="col-md-4">
+                <a href="">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                    <p>R. Pedro Paulino, 77 - Poço, Maceió - AL, 57025-340</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <p>+55 (82) 2122-7858</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </div>
+                    <p>solicitasenac@gmail.com</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end info section -->
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section">
+    <p>&copy; Todos os direitos reservados</p>
+  </section>
+  <!-- footer section -->
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="../static/js/bootstrap.js"></script>
+  <!-- owl carousel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!-- custom js -->
+  <script src="../static/js/custom.js"></script>
+  <script>
+    document.getElementById('telefone').addEventListener('input', function (e) {
+      var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+      e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<title>Solicita Senac - Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="../static/images/icons/favicon.ico" />
+	<link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap/css/bootstrap.min.css">
+
+	<!-- Fonts -->
+	<link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+	<!-- Animate CSS -->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/animate/animate.css">
+
+	<!-- Hamburgers -->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/css-hamburgers/hamburgers.min.css">
+
+	<!-- Select2 -->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/select2/select2.min.css">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" type="text/css" href="../static/css/util.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/main.css">
+
+	<style>
+		/* Estilo para mensagens flash */
+		.flash-messages {
+			position: fixed;
+			top: 20px;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 9999;
+			width: 90%;
+			max-width: 400px;
+			animation: slideDown 0.5s ease;
+		}
+
+		@keyframes slideDown {
+			from {
+				top: -100px;
+				opacity: 0;
+			}
+
+			to {
+				top: 20px;
+				opacity: 1;
+			}
+		}
+
+		.flash-success {
+			background-color: #d4edda;
+			color: #155724;
+			border: 1px solid #c3e6cb;
+			padding: 15px 20px;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			text-align: center;
+			font-weight: 500;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+
+		.flash-danger {
+			background-color: #f8d7da;
+			color: #721c24;
+			border: 1px solid #f5c6cb;
+			padding: 15px 20px;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			text-align: center;
+			font-weight: 500;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+
+		.flash-warning {
+			background-color: #fff3cd;
+			color: #856404;
+			border: 1px solid #ffeeba;
+			padding: 15px 20px;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			text-align: center;
+			font-weight: 500;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+
+		/* Ajustes na logo */
+		.login100-pic img {
+			max-width: 100%;
+			height: auto;
+			transition: transform 0.3s;
+		}
+
+		.login100-pic img:hover {
+			transform: scale(1.02);
+		}
+
+		/* Título */
+		.login100-form-title {
+			font-size: 24px;
+			color: #333333;
+			margin-bottom: 30px;
+		}
+
+		/* Links */
+		.txt2 {
+			color: #007bff;
+			font-size: 14px;
+			transition: color 0.3s;
+		}
+
+		.txt2:hover {
+			color: #0056b3;
+			text-decoration: none;
+		}
+
+		/* Container do formulário */
+		.wrap-login100 {
+			background: #fff;
+			border-radius: 10px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+			padding: 50px;
+		}
+
+		/* Campos de input */
+		.input100 {
+			border: 1px solid #e6e6e6;
+			border-radius: 5px;
+			transition: border-color 0.3s;
+		}
+
+		.input100:focus {
+			border-color: #007bff;
+		}
+
+		/* Botão de login */
+		.login100-form-btn {
+			background-color: #007bff;
+			border: none;
+			border-radius: 5px;
+			color: #fff;
+			font-size: 16px;
+			font-weight: 500;
+			padding: 12px 35px;
+			transition: background-color 0.3s;
+		}
+
+		.login100-form-btn:hover {
+			background-color: #0056b3;
+		}
+
+		/* Responsividade */
+		@media (max-width: 768px) {
+			.wrap-login100 {
+				padding: 30px 20px;
+			}
+
+			.login100-pic {
+				display: none;
+			}
+
+			.login100-form-title {
+				font-size: 20px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+
+				<!-- Logo -->
+				<div class="login100-pic js-tilt" data-tilt>
+					<img src="../static/images/logo5_1.png" alt="Logo Solicita Senac">
+				</div>
+
+				<!-- Mensagens Flash -->
+				<div class="flash-messages">
+					{% with messages = get_flashed_messages(with_categories=true) %}
+					{% if messages %}
+					{% for category, message in messages %}
+					<div class="flash-{{ category }}">{{ message }}</div>
+					{% endfor %}
+					{% endif %}
+					{% endwith %}
+				</div>
+
+				<!-- Formulário de Login -->
+				<form class="login100-form validate-form" method="POST" action="/index">
+					<span class="login100-form-title">
+						<h3>Bem-vindo ao Solicita Senac</h3>
+						<p style="font-size: 14px; color: #666; margin-top: 10px;">Faça login para acessar o sistema</p>
+					</span>
+
+					<!-- Campo E-mail -->
+					<div class="wrap-input100 validate-input" data-validate="E-mail é obrigatório">
+						<input class="input100" type="email" name="email" placeholder="E-mail"
+							value="{{ email if email else '' }}" required>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<!-- Campo Senha -->
+					<div class="wrap-input100 validate-input" data-validate="Senha é obrigatória">
+						<input class="input100" type="password" name="senha" placeholder="Senha" required>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<!-- Botão de Login -->
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" type="submit">
+							Entrar no Sistema
+						</button>
+					</div>
+
+					<!-- Links úteis -->
+					<div class="text-center p-t-12" style="margin-top: 20px;">
+						<span class="txt1">Não tem uma conta? </span>
+						<a class="txt2" href="/cadastre_usuarios">
+							<strong>Cadastre-se</strong>
+						</a>
+						<br>
+						<span class="txt1">Esqueceu sua senha? </span>
+						<a class="txt2" href="/esqueceu_senha">
+							<strong>Redefinir senha</strong>
+						</a>
+					</div>
+
+					<!-- Informações de contato -->
+					<div class="text-center p-t-50"
+						style="margin-top: 30px; border-top: 1px solid #e6e6e6; padding-top: 20px;">
+						<p style="font-size: 12px; color: #999;">
+							<i class="fa fa-phone" aria-hidden="true"></i> (82) 2122-7858<br>
+							<i class="fa fa-envelope" aria-hidden="true"></i> solicitasenac@gmail.com
+						</p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="../static/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="../static/vendor/bootstrap/js/popper.js"></script>
+	<script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../static/vendor/select2/select2.min.js"></script>
+	<script src="../static/vendor/tilt/tilt.jquery.min.js"></script>
+
+	<script>
+		// Efeito tilt na logo
+		$('.js-tilt').tilt({
+			scale: 1.05,
+			glare: true,
+			maxGlare: .5
+		});
+
+		// Auto-hide das mensagens flash após 5 segundos
+		setTimeout(function () {
+			$('.flash-messages').fadeOut('slow');
+		}, 5000);
+
+		// Validação básica do formulário
+		$('.login100-form').submit(function (e) {
+			var email = $('input[name="email"]').val();
+			var senha = $('input[name="senha"]').val();
+
+			if (!email || !senha) {
+				e.preventDefault();
+				alert('Por favor, preencha todos os campos!');
+			}
+		});
+
+		// Placeholder para e-mail de demonstração
+		$('input[name="email"]').attr('placeholder', 'Digite seu e-mail');
+		$('input[name="senha"]').attr('placeholder', 'Digite sua senha');
+	</script>
+
+	<!-- Script principal -->
+	<script src="../static/js/main.js"></script>
+</body>
+
+</html>

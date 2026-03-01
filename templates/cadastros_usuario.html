@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadastro – Solicita Senac</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo5.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+  <style>
+    body { font-family:Arial,sans-serif; background:#d1e3ff; }
+    .page-container { width:80%; max-width:620px; margin:30px auto; padding:28px; background:#ff8a1d; border-radius:10px; box-shadow:0 4px 18px rgba(0,0,0,.15); }
+    .form-section { padding:24px; background:#e9ecef; border-radius:8px; }
+    .form-section h2 { margin-top:0; color:#333; }
+    .form-group { margin-bottom:14px; }
+    .form-group label { display:block; font-weight:600; margin-bottom:5px; color:#444; }
+    .form-group input, .form-group select { width:100%; padding:10px; border:1px solid #ddd; border-radius:4px; box-sizing:border-box; }
+    .form-group input:focus, .form-group select:focus { border-color:#007bff; outline:none; }
+    .btn-submit { display:block; width:100%; padding:13px; background:#007bff; color:#fff; border:none; border-radius:4px; font-size:16px; cursor:pointer; }
+    .btn-submit:hover { background:#0056b3; }
+    .voltar-link { display:block; text-align:center; margin-top:14px; color:#fff; font-size:15px; }
+    .voltar-link:hover { color:#ddd; }
+    .alert { border-radius:5px; padding:10px 14px; margin-bottom:12px; }
+  </style>
+</head>
+<body>
+  <header class="header_section">
+    <div class="header_top">
+      <div class="container-fluid">
+        <div class="contact_nav">
+          <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
+          <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="header_bottom">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('login') }}">
+          <img src="{{ url_for('static', filename='images/logo5.png') }}" alt="Logo">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="form-section">
+      <h2><i class="fa fa-user-plus"></i> Cadastro de Usuário</h2>
+      <form method="POST" action="{{ url_for('cadastre_usuarios') }}">
+        <div class="form-group">
+          <label>Nome completo *</label>
+          <input type="text" name="nome" value="{{ nome if nome else '' }}" required>
+        </div>
+        <div class="form-group">
+          <label>E-mail *</label>
+          <input type="email" name="email" value="{{ email if email else '' }}" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>Senha *</label>
+          <input type="password" name="senha" required autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label>Matrícula * <small style="color:#888">(somente números)</small></label>
+          <input type="text" id="matricula" name="matricula" inputmode="numeric" pattern="\d+" required>
+        </div>
+        <div class="form-group">
+          <label>Unidade *</label>
+          <select name="unidade" required>
+            <option value="" disabled selected>Selecione</option>
+            <option {% if unidade=='Carlos Milito - Maceió' %}selected{% endif %}>Carlos Milito - Maceió</option>
+            <option {% if unidade=='Centro de Gastronomia - Maceió' %}selected{% endif %}>Centro de Gastronomia - Maceió</option>
+            <option {% if unidade=='Posto Avançado - Palmeira Dos Índios' %}selected{% endif %}>Posto Avançado - Palmeira Dos Índios</option>
+            <option {% if unidade=='Posto Avançado - União Dos Palmares' %}selected{% endif %}>Posto Avançado - União Dos Palmares</option>
+            <option {% if unidade=='Sede Administrativa - Maceió' %}selected{% endif %}>Sede Administrativa - Maceió</option>
+            <option {% if unidade=='Unidade do Agreste - Arapiraca' %}selected{% endif %}>Unidade do Agreste - Arapiraca</option>
+            <option {% if unidade=='Unidade Jaraguá - Em construção/Maceió' %}selected{% endif %}>Unidade Jaraguá - Em construção/Maceió</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Setor *</label>
+          <input type="text" name="setor" value="{{ setor if setor else '' }}" placeholder="Ex.: TI, RH, Financeiro" required>
+        </div>
+        <div class="form-group">
+          <label>Nível de permissão *</label>
+          <select name="permissao" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="Solicitação">Solicitação</option>
+            <option value="Confirmação">Confirmação</option>
+            <option value="Executar">Executar</option>
+            <option value="Administrador">Administrador</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Criar Conta</button>
+      </form>
+    </div>
+
+    <a href="{{ url_for('login') }}" class="voltar-link">
+      <i class="fa fa-arrow-left"></i> Já tenho conta – Fazer login
+    </a>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script>
+    document.getElementById('matricula').addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/\D/g,'');
+    });
+  </script>
+</body>
+</html>

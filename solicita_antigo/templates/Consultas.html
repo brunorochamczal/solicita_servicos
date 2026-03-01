@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicita Senac</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Custom CSS -->
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <link href="../static/css/responsive.css" rel="stylesheet" />
+    <link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d1e3ff;
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            background-color: #00408d;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table-custom {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .table-custom th {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px;
+        }
+
+        .table-custom td {
+            background-color: #ffecb5;
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-custom tr:nth-child(odd) td {
+            background-color: #f8f9fa;
+        }
+
+        .table-custom tr:hover td {
+            background-color: #ffddc1;
+        }
+
+        .inicial-button {
+            position: absolute;
+            top: 175px;
+            left: 12px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 15px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            z-index: 1000;
+        }
+        
+        .inicial-button a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        
+        .inicial-button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-filters {
+            margin-bottom: 20px;
+        }
+
+        .search-filters .form-control {
+            padding-right: 40px;
+            position: relative;
+        }
+
+        .search-filters .fa-search.buton {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .custom-modal-width {
+            max-width: 90%; /* Ajustado para maior responsividade */
+            width: 100%;
+        }
+        
+        @media (min-width: 576px) {
+            .custom-modal-width {
+                max-width: 80%; /* Ajustado para telas maiores */
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .custom-modal-width {
+                max-width: 70%; /* Ajustado para telas maiores */
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .custom-modal-width {
+                max-width: 60%; /* Ajustado para telas maiores */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero_area">
+        <!-- header section starts -->
+        <header class="header_section">
+            <div class="header_top">
+                <div class="container-fluid">
+                    <div class="contact_nav">
+                        <a href="">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>Ligue : +55 (82) 2122-7858</span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Email : solicitasenac@gmail.com</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header_bottom">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg custom_nav-container">
+                        <a class="navbar-brand" href="index1.html">
+                            <img src="../static/images/logo5.png" alt="Logo">
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <br><br>
+
+        <!-- Form section -->
+        <div class="container my-4">
+            <center>
+                <div class="inicial-button">
+                    <a href="index.html">
+                        <i class="fa fa-sign-out"></i> Voltar
+                    </a>
+                </div>
+            </center>
+            <br><br>
+
+            <center>
+                <h1><em>Consulta de serviços</em></h1>
+                <br><br>
+            </center>
+
+            <!-- Filtro de Pesquisa Individual -->
+            <div class="search-filters">
+                <form id="searchForm">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="position-relative">
+                                <input type="text" id="searchChamada" class="form-control" placeholder="buscar N° chamada" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                <i class="fa fa-search buton" id="searchChamadaBtn"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="position-relative">
+                                <input type="text" id="searchNome" class="form-control" placeholder="buscar nome do solicitante">
+                                <i class="fa fa-search buton" id="searchNomeBtn"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="position-relative">
+                                <input type="text" id="searchUnidade" class="form-control" placeholder="buscar unidade">
+                                <i class="fa fa-search buton" id="searchUnidadeBtn"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="position-relative">
+                                <input type="text" id="searchAssunto" class="form-control" placeholder="buscar assunto">
+                                <i class="fa fa-search buton" id="searchAssuntoBtn"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="position-relative">
+                                <input type="text" id="searchCategoria" class="form-control" placeholder="buscar categoria">
+                                <i class="fa fa-search buton" id="searchCategoriaBtn"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="position-relative">
+                                <input type="text" id="searchStatus" class="form-control" placeholder="buscar status">
+                                <i class="fa fa-search buton" id="searchStatusBtn"></i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Table section -->
+            <div class="table-responsive">
+                <table class="table table-custom table-bordered" id="table-to-export">
+                    <!-- Cabeçalho -->
+                    <thead>
+                        <tr>
+                            <th scope="col">N° chamado</th>
+                            <th scope="col">Nome do solicitante</th>
+                            <th scope="col">Unidade</th>
+                            <th scope="col">Assunto</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+
+                    <!-- Corpo da Tabela -->
+                    <tbody id="tableBody">
+                        {% if resultado %}
+                            {% for cliente in resultado %}
+                                <tr>
+                                    <td>
+                                        <a data-bs-toggle="modal" data-bs-target="#staticBackdrop">01</a>
+                                    </td>
+                                    <td>{{ cliente[0] }}</td>
+                                    <td>{{ cliente[1] }}</td>
+                                        <td>{{ cliente[2] }}</td>
+                                        <td>{{ cliente[3] }}</td>
+                                        <td>{{ cliente[4] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center">Nenhum resultado encontrado</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <br>
+                    <!-- Botão para gerar PDF -->
+                    <div class="text-center mb-4">
+                        <button id="pdfButton">Gerar PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable custom-modal-width">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Chamado N°01</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="assunto">Assunto</label>
+                                    <p id="assunto">Erro no Sistema de Login</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="funcionarios">Funcionário</label>
+                                    <p id="funcionarios">João da Silva</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="prazo">Prazo</label>
+                                    <p id="prazo">31/08/2024</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="setor">Setor do solicitante</label>
+                                    <p id="setor">Tecnologia da Informação</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nome">Nome do solicitante</label>
+                                    <p id="nome">Maria Oliveira</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email">E-mail do solicitante</label>
+                                    <p id="email">maria.oliveira@empresa.com</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="telefone">Telefone/WhatsApp do solicitante</label>
+                                    <p id="telefone">(11) 98765-4321</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="unidade">Unidade</label>
+                                    <p id="unidade">Unidade Central</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descricao">Observações</label>
+                                <p id="descricao">O sistema de login está apresentando erro intermitente ao tentar autenticar os usuários.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9g2zv1fNb8ROcGg6VTO2i4JH6b3I6vMl3kC+MnDIX0iDA0PMyiG" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('pdfButton').addEventListener('click', function() {
+                    var table = document.getElementById('table-to-export').cloneNode(true);
+                    
+                    // Remove the "Nenhum resultado encontrado" row (already omitted in HTML)
+                    var rows = table.querySelectorAll('#tableBody tr');
+                    rows.forEach(function(row) {
+                        if (row.textContent.includes('Nenhum resultado encontrado')) {
+                            row.remove();
+                        }
+                    });
+    
+                    var pdfContent = document.createElement('div');
+                    pdfContent.innerHTML = `
+                        <h1 style="text-align: center;">Consulta de Serviços</h1>
+                        <div class="table-responsive">
+                            ${table.outerHTML}
+                        </div>
+                    `;
+    
+                    var opt = {
+                        margin:       1,
+                        filename:     'tabela.pdf',
+                        image:        { type: 'jpeg', quality: 0.98 },
+                        html2canvas:  { scale: 2 },
+                        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+                    
+                    html2pdf().from(pdfContent).set(opt).save();
+                });
+    
+                var searchButtons = {
+                    chamada: document.getElementById('searchChamadaBtn'),
+                    nome: document.getElementById('searchNomeBtn'),
+                    unidade: document.getElementById('searchUnidadeBtn'),
+                    assunto: document.getElementById('searchAssuntoBtn'),
+                    categoria: document.getElementById('searchCategoriaBtn'),
+                    status: document.getElementById('searchStatusBtn')
+                };
+    
+                var searchInputs = {
+                    chamada: document.getElementById('searchChamada'),
+                    nome: document.getElementById('searchNome'),
+                    unidade: document.getElementById('searchUnidade'),
+                    assunto: document.getElementById('searchAssunto'),
+                    categoria: document.getElementById('searchCategoria'),
+                    status: document.getElementById('searchStatus')
+                };
+    
+                function filterTable() {
+                    var rows = document.querySelectorAll('#tableBody tr');
+                    rows.forEach(function(row) {
+                        var cells = row.cells;
+                        var match = true;
+                        Object.keys(searchInputs).forEach(function(key, index) {
+                            var cellText = cells[index].textContent.toLowerCase();
+                            var filterText = searchInputs[key].value.toLowerCase();
+                            if (filterText && cellText.indexOf(filterText) === -1) {
+                                match = false;
+                            }
+                        });
+                        row.style.display = match ? '' : 'none';
+                    });
+                }
+    
+                Object.keys(searchButtons).forEach(function(key) {
+                    searchButtons[key].addEventListener('click', function() {
+                        filterTable();
+                    });
+                });
+    
+                Object.keys(searchInputs).forEach(function(key) {
+                    searchInputs[key].addEventListener('keydown', function(event) {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();
+                            filterTable();
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+    </html>
+    
+
+

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicita Senac</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css" />
+    <!-- Custom CSS -->
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <link href="../static/css/responsive.css" rel="stylesheet" />
+    <link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d1e3ff;
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            background-color: #00408d;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table-custom {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .table-custom th {
+            background-color: #007bff; /* Azul */
+            color: #fff;
+            padding: 12px;
+        }
+
+        .table-custom td {
+            background-color: #ffecb5; /* Laranja claro */
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-custom tr:nth-child(odd) td {
+            background-color: #f8f9fa; /* Cinza claro */
+        }
+
+        .table-custom tr:hover td {
+            background-color: #ffddc1; /* Laranja mais claro */
+        }
+
+
+
+    /* Adiciona um estilo ao botão de logout */
+.inicial-button {
+    position: absolute; /* Posiciona o botão de forma absoluta */
+    top: 175px; /* Distância do topo */
+    left: 12px; /* Distância da esquerda */
+    background-color: #007bff; /* Cor de fundo do botão */
+    color: #ffffff; /* Cor do texto do botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 5px; /* Cantos arredondados */
+    padding: 5px 15px; /* Espaçamento interno */
+    font-size: 16px; /* Tamanho da fonte */
+    text-align: center; /* Alinhamento do texto */
+    text-decoration: none; /* Remove o sublinhado */
+    display: inline-block; /* Faz o botão ficar no mesmo nível */
+    z-index: 1000; /* Garante que o botão fique acima de outros elementos */
+  }
+  
+  .inicial-button a {
+    color: #ffffff; /* Cor do texto do link dentro do botão */
+    text-decoration: none; /* Remove o sublinhado do link */
+  }
+  
+  .inicial-button:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+  }
+    </style>
+</head>
+<body>
+    <div class="hero_area">
+        <!-- header section starts -->
+        <header class="header_section">
+            <div class="header_top">
+                <div class="container-fluid">
+                    <div class="contact_nav">
+                        <a href="">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>Ligue : +55 (82) 2122-7858</span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Email : solicitasenac@gmail.com</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header_bottom">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg custom_nav-container">
+                        <a class="navbar-brand" href="index1.html">
+                            <img src="../static/images/logo5.png" alt="Logo">
+                        </a>
+                        <!----
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    -->
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <br><br>
+
+        <!-- Form section -->
+        <div class="container my-4">
+            <center>
+                
+  <div class="inicial-button">
+    <a href="index1.html">
+     <i class="fa fa-sign-out"></i> Voltar
+    </a>
+   </div>
+            
+              </center>
+            <br><br>
+
+            <center>
+                <h1>Relatórios</h1>
+                <br>
+            </center>
+
+            <!-- Filtro de Pesquisa -->
+
+
+                <div class="text-center mb-4">
+                    <button id="download-pdf">Imprimir relatório</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9g2zv1fNb8ROcGg6VTO2i4JH6b3I6vMl3kC+MnDIX0iDA0PMyiG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
+
+    <script>
+        // Função para filtrar a tabela
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var filter = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach(function(row) {
+                var nameCell = row.cells[1].textContent.toLowerCase(); // Index 1 é a coluna Nome
+                if (nameCell.indexOf(filter) > -1) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

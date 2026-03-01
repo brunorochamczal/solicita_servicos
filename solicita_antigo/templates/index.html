@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Solicita Senac</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" />
+  <!-- font awesome style -->
+  <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css" />
+  <!-- Custom styles for this template -->
+  <link href="../static/css/style.css" rel="stylesheet" />
+  <!-- CSS dos 3 botões grandes da página principal -->
+  <link href="../static/css/style_novo.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../static/css/responsive.css" rel="stylesheet" />
+  <link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+
+  <style>
+    /* Adiciona um estilo ao botão de logout */
+    .logout-button {
+      position: absolute;
+      top: 150px;
+      left: 15px;
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      z-index: 1000;
+    }
+
+    .logout-button a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .logout-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Estilo para o botão de ajuda */
+    .help-button {
+      position: absolute;
+      top: 68px;
+      right: 15px;
+      background-color: #28a745;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      z-index: 1000;
+    }
+
+    .help-button a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .help-button:hover {
+      background-color: #218838;
+    }
+
+    /* Estilo para a seção de botões e imagem */
+    .service_section .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .service_section .box {
+      flex: 1 1 30%;
+      margin: 15px;
+      text-align: center;
+    }
+
+    .service_section .box .img-box img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Estilo para a imagem lateral */
+    .side-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 30px;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+
+      .logout-button,
+      .help-button {
+        position: static;
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 10px 0;
+      }
+
+      .side-image {
+        display: none;
+      }
+
+      .service_section .button-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .service_section .box {
+        width: 80%;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section starts -->
+    <header class="header_section">
+      <div class="header_top">
+        <div class="container-fluid">
+          <div class="contact_nav">
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span>Ligue : +55 (82) 2122-7858</span>
+            </a>
+            <a href="">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span>Email : solicitasenac@gmail.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão Sair com ícone -->
+      <div class="logout-button">
+        <a href="login1.html">
+          <i class="fa fa-sign-out"></i> Sair
+        </a>
+      </div>
+
+      <!-- Botão para entrar na página de ajuda -->
+      <div class="help-button">
+        <a href="pagina_ajuda.html">
+          <i class="fa fa-question-circle"></i> Ajuda
+        </a>
+      </div>
+
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index1.html">
+            <span><img src="../static/images/logo5.png" alt="Logo"></span>
+            <!-- Navegação desativada para foco na responsividade -->
+        </div>
+      </div>
+    </header>
+    <!-- header section ends -->
+
+    <section class="service_section layout_padding">
+      <div class="container">
+        <div class="content-wrapper">
+          <!-- Imagem ao lado -->
+          <img src="../static/images/segunda.png" alt="" class="side-image">
+
+          <!-- Contêiner de botões -->
+          <div class="button-container">
+            <div class="box">
+              <a href="cadastros.html">
+                <div class="img-box">
+                  <img src="../static/images/cadastros.png" alt="" />
+                </div>
+                <div class="detail-box">
+                  <h4>Cadastro (funcionários e usuários)<br></h4>
+                </div>
+              </a>
+            </div>
+
+            <div class="box">
+              <a href="relatorio.html">
+                <div class="img-box">
+                  <img src="../static/images/rela.png" alt="" />
+                </div>
+                <div class="detail-box">
+                  <h4>Relatório (serviços solicitados)<br></h4>
+                </div>
+              </a>
+            </div>
+
+            <div class="box">
+              <a href="index1.html">
+                <div class="img-box">
+                  <img src="../static/images/s1.png" alt="" />
+                </div>
+                <div class="detail-box">
+                  <h4>Serviços (Abertura e consulta de chamados)<br></h4>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- info section -->
+    <section class="info_section">
+      <div class="container">
+        <h4>Entre em contato</h4>
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="info_items">
+              <div class="row">
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                      </div>
+                      <p>R. Pedro Paulino, 77 - Poço, Maceió - AL, 57025-340</p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                      </div>
+                      <p>+55 (82) 2122-7858</p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                      </div>
+                      <p>solicitasenac@gmail.com</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end info_section -->
+
+    <!-- footer section -->
+    <footer class="footer_section">
+      <div class="container">
+        <p>
+          &copy; <span id="displayDateYear"></span> Todos os direitos reservados
+        </p>
+      </div>
+    </footer>
+    <!-- footer section -->
+
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="../static/js/custom.js"></script>
+    <!-- Google Map -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+    <!-- End Google Map -->
+  </div>
+</body>
+
+</html>

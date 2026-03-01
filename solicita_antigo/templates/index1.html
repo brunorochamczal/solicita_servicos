@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Solicita Senac</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" />
+  <!-- font awesome style -->
+  <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css" />
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/style.css" rel="stylesheet" />
+  <!-- CSS dos 3 botões grandes da página principal -->
+  <link href="../static/css/style_novo.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../static/css/responsive.css" rel="stylesheet" />
+  <link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+
+  <style>
+    .logout-button {
+      position: absolute;
+      top: 83px;
+      right: 15px;
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      z-index: 1000;
+    }
+
+    .logout-button a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .logout-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* CSS para responsividade */
+    @media (max-width: 767px) {
+      .side-image {
+        display: none;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .button-container .box {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .button-container .box .img-box img {
+        max-width: 80px;
+        height: auto;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .side-image {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .button-container .box {
+        flex: 1;
+        margin: 0 10px;
+      }
+
+      .button-container .box .img-box img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+
+    
+  </style>
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section starts -->
+    <header class="header_section">
+      <div class="header_top">
+        <div class="container-fluid">
+          <div class="contact_nav">
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span>Ligue : +55 (82) 2122-7858</span>
+            </a>
+            <a href="">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span>Email : solicitasenac@gmail.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão Sair com ícone -->
+      <div class="logout-button">
+        <a href="index1.html">
+          <i class="fa fa-sign-out"></i> Voltar
+        </a>
+      </div>
+
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <!-- Logo como link para a página inicial -->
+          <a href="index1.html">
+            <img src="../static/images/logo5.png" alt="Logo">
+          </a>
+          
+          <!-- Navbar if needed, currently commented out -->
+          <!--
+          <nav class="navbar navbar-expand-lg custom_nav-container">
+            <a class="navbar-brand" href="index.html">
+              <span>
+                <img src="images/logo5.png" alt="Logo">
+              </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class=""> </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Página inicial <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="cadastros.html">Cadastros</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="relatorio.html">Relatórios</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="service.html">Serviços</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          -->
+        </div>
+      </div>
+    </header>
+    <!-- header section ends -->
+
+    <section class="service_section layout_padding">
+      <div class="container">
+        <div class="content-wrapper">
+          <!-- Imagem ao lado -->
+          <img src="../static/images/segunda.png" alt="" class="side-image">
+        
+          <!-- Contêiner de botões -->
+          <div class="button-container">
+            <div class="box">
+              <a href="service.html">
+                <div class="img-box">
+                  <img src="../static/images/telefone.png" alt="" />
+                </div>
+                <div class="detail-box">
+                  <h4>Abrir chamados<br></h4>
+                </div>
+              </a>        
+            </div>
+            <br>
+            <div class="box">
+              <a href="Consultas.html">
+                <div class="img-box">
+                  <img src="../static/images/consulte.png" alt="" />
+                </div>
+                <div class="detail-box">
+                  <h4>Consultar serviços<br></h4>
+                </div>
+              </a>        
+            </div>
+            <br>
+            <div class="box">
+              <a href="sede.html">
+                <div class="img-box">
+                  <img src="../static/images/confirm.png" alt="" />
+                </div>
+                <div class="detail-box">
+                  <h4>Confirmação de serviços<br></h4>
+                </div>
+              </a>
+            </div>
+            <br>
+            <!-- Nova caixa adicionada -->
+            <div class="box">
+              <a href="visualizacao.html">
+                <div class="img-box">
+                  <img src="../static/images/valido.png" alt="" />
+                </div>
+                <div class="detail-box">
+                  <h4>Executar Serviços<br></h4>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- info section -->
+    <section class="info_section">
+      <div class="container">
+        <h4>Entre em contato</h4>
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="info_items">
+              <div class="row">
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                      </div>
+                      <p>R. Pedro Paulino, 77 - Poço, Maceió - AL, 57025-340</p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                      </div>
+                      <p>+55 (82) 2122-7858</p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                      </div>
+                      <p>solicitasenac@gmail.com</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end info_section -->
+
+    <!-- footer section -->
+    <footer class="footer_section">
+      <div class="container">
+        <p>&copy; <span id="displayDateYear"></span> Todos os direitos reservados</p>
+      </div>
+    </footer>
+    <!-- footer section -->
+
+   
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="../static/js/custom.js"></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+    <!-- End Google Map -->
+  </div>
+</body>
+
+</html>

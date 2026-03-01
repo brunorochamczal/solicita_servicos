@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Serviços – Solicita Senac</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo5.png') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style_novo.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+  <style>
+    body { background:#d1e3ff; }
+    .voltar-button {
+      position:absolute; top:83px; right:15px;
+      background:#007bff; color:#fff; border:none; border-radius:5px;
+      padding:10px 18px; font-size:15px; text-decoration:none; z-index:1000; display:inline-block;
+    }
+    .voltar-button:hover { background:#0056b3; color:#fff; }
+    @media (max-width:767px) {
+      .side-image { display:none; }
+      .button-container { flex-direction:column; align-items:center; }
+      .button-container .box { width:100%; margin-bottom:10px; }
+    }
+    @media (min-width:768px) {
+      .side-image { display:block; max-width:100%; height:auto; }
+      .button-container { display:flex; justify-content:space-between; }
+      .button-container .box { flex:1; margin:0 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="hero_area">
+  <header class="header_section">
+    <div class="header_top">
+      <div class="container-fluid">
+        <div class="contact_nav">
+          <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
+          <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+        </div>
+      </div>
+    </div>
+    <a class="voltar-button" href="{{ url_for('dashboard') }}">
+      <i class="fa fa-arrow-left"></i> Voltar
+    </a>
+    <div class="header_bottom">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+          <img src="{{ url_for('static', filename='images/logo5.png') }}" alt="Logo">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="container mt-3">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show">
+      {{ message }}<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <section class="service_section layout_padding">
+    <div class="container">
+      <div class="content-wrapper">
+        <img src="{{ url_for('static', filename='images/segunda.png') }}" alt="" class="side-image">
+        <div class="button-container">
+          <div class="box">
+            <a href="{{ url_for('abrir_chamado') }}">
+              <div class="img-box"><img src="{{ url_for('static', filename='images/telefone.png') }}" alt=""></div>
+              <div class="detail-box"><h4>Abrir Chamados</h4></div>
+            </a>
+          </div>
+          <div class="box">
+            <a href="{{ url_for('consultar_servicos') }}">
+              <div class="img-box"><img src="{{ url_for('static', filename='images/consulte.png') }}" alt=""></div>
+              <div class="detail-box"><h4>Consultar Serviços</h4></div>
+            </a>
+          </div>
+          <div class="box">
+            <a href="{{ url_for('consultar_servicos') }}?status=aberto">
+              <div class="img-box"><img src="{{ url_for('static', filename='images/confirm.png') }}" alt=""></div>
+              <div class="detail-box"><h4>Confirmação de Serviços</h4></div>
+            </a>
+          </div>
+          <div class="box">
+            <a href="{{ url_for('executar_servicos') }}">
+              <div class="img-box"><img src="{{ url_for('static', filename='images/valido.png') }}" alt=""></div>
+              <div class="detail-box"><h4>Executar Serviços</h4></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info_section">
+    <div class="container">
+      <h4>Entre em contato</h4>
+      <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
+        <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Poço, Maceió – AL</p></div></a></div>
+        <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
+        <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
+      </div></div></div></div>
+    </div>
+  </section>
+
+  <footer class="footer_section">
+    <div class="container"><p>&copy; <span id="ano"></span> Todos os direitos reservados</p></div>
+  </footer>
+</div>
+
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+<script>document.getElementById('ano').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" />
+  <!-- font awesome style -->
+  <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css" />
+  <!-- Custom styles for this template -->
+  <link href="../static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../static/css/responsive.css" rel="stylesheet" />
+
+  <link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+
+  <title>Solicita Senac</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #d1e3ff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #ff8a1d;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-section {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: #e9ecef;
+      border-radius: 8px;
+    }
+
+    .form-section h2 {
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      height: 100px;
+    }
+
+    .btn-submit {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-submit:hover {
+      background-color: #0056b3;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+      background-color: #00408d;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Adiciona um estilo ao botão de logout */
+    .inicial-button {
+      position: absolute;
+      top: 170px;
+      left: 1px;
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 15px;
+      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      z-index: 1000;
+    }
+
+    .inicial-button a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .inicial-button:hover {
+      background-color: #0056b3;
+    }
+
+    .flash-messages {
+      margin: 20px auto;
+      width: 80%;
+      max-width: 1200px;
+    }
+
+    .flash-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .flash-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero_area">
+    <header class="header_section">
+      <div class="header_top">
+        <div class="container-fluid">
+          <div class="contact_nav">
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span>Ligue : +55 (82) 2122-7858</span>
+            </a>
+            <a href="">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span>Email : solicitasenac@gmail.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="/">
+              <span>
+                <img src="../static/images/logo5.png" alt="Logo">
+              </span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <br><br>
+
+  <!-- Exibir mensagens flash -->
+  <div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+
+  <center>
+    <div class="inicial-button">
+      <a href="/">
+        <i class="fa fa-sign-out"></i> Voltar
+      </a>
+    </div>
+  </center>
+
+  <div class="container">
+    <!-- Seletor de Tipo de Cadastro -->
+    <div class="form-section">
+      <h2>Selecione o tipo de cadastro</h2>
+      <form id="type-selection-form">
+        <div class="form-group">
+          <label for="user-type">Tipo de cadastro</label>
+          <select id="user-type" name="user_type" required>
+            <option value="" disabled selected>Escolha uma opção</option>
+            <option value="user">Usuário</option>
+            <option value="employee">Funcionário</option>
+            <option value="category">Categoria de serviços</option>
+            <option value="setor">Cadastro setor solicitante</option>
+          </select>
+        </div>
+        <button type="button" class="btn-submit" onclick="mostrarFormulario()">Selecionar tipo</button>
+      </form>
+    </div>
+
+    <!-- Cadastro de Usuários -->
+    <div class="form-section" id="user-registration" style="display:none;">
+      <h2>Cadastro de usuários</h2>
+      <form method="POST" action="/cadastre_usuarios">
+        <div class="form-group">
+          <label for="user-name">Nome completo</label>
+          <input type="text" id="user-name" name="nome" required>
+        </div>
+        <div class="form-group">
+          <label for="user-email">E-mail</label>
+          <input type="email" id="user-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="user-password">Senha</label>
+          <input type="password" id="user-password" name="senha" required>
+        </div>
+        <div class="form-group">
+          <label for="user-matricula">Matrícula</label>
+          <input type="text" id="user-matricula" name="matricula" required>
+        </div>
+        <div class="form-group">
+          <label>Unidade</label>
+          <select name="unidade" required>
+            <option value="" disabled selected>Selecione Unidade</option>
+            <option value="Carlos Milito - Maceió">Carlos Milito - Maceió</option>
+            <option value="Centro de Gastronomia - Maceió">Centro de Gastronomia - Maceió</option>
+            <option value="Posto Avançado - Palmeira Dos Índios">Posto Avançado - Palmeira Dos Índios</option>
+            <option value="Posto Avançado - União Dos Palmares">Posto Avançado - União Dos Palmares</option>
+            <option value="Sede Administrativa - Maceió">Sede Administrativa - Maceió</option>
+            <option value="Unidade do Agreste - Arapiraca">Unidade do Agreste - Arapiraca</option>
+            <option value="Unidade Jaraguá - Em construção/Maceió">Unidade Jaraguá - Em construção/Maceió</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Setor</label>
+          <input type="text" name="setor" class="form-control" placeholder="Setor do usuário" required>
+        </div>
+        <div class="form-group">
+          <label>Permissão</label>
+          <select name="permissao" required>
+            <option value="" disabled selected>Selecione permissão</option>
+            <option value="Solicitação">Solicitação</option>
+            <option value="Confirmação">Confirmação</option>
+            <option value="Executar">Executar</option>
+            <option value="Administrador">Administrador</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Cadastrar usuário</button>
+      </form>
+    </div>
+
+    <!-- Cadastro de Funcionários -->
+    <div class="form-section" id="employee-registration" style="display:none;">
+      <h2>Cadastro de funcionários</h2>
+      <form method="POST" action="/cadastre_funcionarios">
+        <div class="form-group">
+          <label for="employee-name">Nome completo</label>
+          <input type="text" id="employee-name" name="nome" required>
+        </div>
+        <div class="form-group">
+          <label for="employee-email">E-mail</label>
+          <input type="email" id="employee-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="employee-matricula">Matrícula</label>
+          <input type="text" id="employee-matricula" name="matricula" required>
+        </div>
+        <div class="form-group">
+          <label for="employee-cpf">CPF</label>
+          <input type="text" id="employee-cpf" name="cpf" placeholder="000.000.000-00" required>
+        </div>
+        <div class="form-group">
+          <label for="employee-datanasc">Data de nascimento</label>
+          <input type="date" id="employee-datanasc" name="datanasc" required>
+        </div>
+        <div class="form-group">
+          <label for="employee-regiao">Região</label>
+          <input type="text" id="employee-regiao" name="regiao" placeholder="Região de atuação" required>
+        </div>
+        <div class="form-group">
+          <label>Unidade</label>
+          <select name="unidade" required>
+            <option value="" disabled selected>Selecione Unidade</option>
+            <option value="Carlos Milito - Maceió">Carlos Milito - Maceió</option>
+            <option value="Centro de Gastronomia - Maceió">Centro de Gastronomia - Maceió</option>
+            <option value="Posto Avançado - Palmeira Dos Índios">Posto Avançado - Palmeira Dos Índios</option>
+            <option value="Posto Avançado - União Dos Palmares">Posto Avançado - União Dos Palmares</option>
+            <option value="Sede Administrativa - Maceió">Sede Administrativa - Maceió</option>
+            <option value="Unidade do Agreste - Arapiraca">Unidade do Agreste - Arapiraca</option>
+            <option value="Unidade Jaraguá - Em construção/Maceió">Unidade Jaraguá - Em construção/Maceió</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="employee-telefone">Telefone</label>
+          <input type="text" id="employee-telefone" name="telefone" placeholder="(00) 00000-0000" required>
+        </div>
+        <div class="form-group">
+          <label for="employee-setor">Setor</label>
+          <input type="text" id="employee-setor" name="setor" placeholder="Setor de trabalho" required>
+        </div>
+        <div class="form-group">
+          <label>Turno</label>
+          <select name="turno" required>
+            <option value="" disabled selected>Selecione o turno</option>
+            <option value="Manhã">Manhã</option>
+            <option value="Tarde">Tarde</option>
+            <option value="Noite">Noite</option>
+          </select>
+        </div>
+        <button class="btn-submit" type="submit">Cadastrar funcionário</button>
+      </form>
+    </div>
+
+    <!-- Cadastro de Setores -->
+    <div class="form-section" id="setor-registration" style="display:none;">
+      <h2>Cadastro de setor solicitante</h2>
+      <form method="POST" action="/cadastre_setores">
+        <div class="form-group">
+          <label for="setor-name">Nome do setor</label>
+          <input type="text" id="setor-name" name="nome_setor" required>
+        </div>
+        <button type="submit" class="btn-submit">Cadastrar setor</button>
+      </form>
+    </div>
+
+    <!-- Cadastro de Categorias -->
+    <div class="form-section" id="category-registration" style="display:none;">
+      <h2>Categoria de serviços</h2>
+      <form method="POST" action="/cadastre_categorias">
+        <div class="form-group">
+          <label for="nome_categoria">Nome da categoria</label>
+          <input type="text" id="nome_categoria" name="nome_categoria" required>
+        </div>
+        <div class="form-group">
+          <label for="descricao_categoria">Descrição da categoria</label>
+          <textarea class="form-control" id="descricao_categoria" name="descricao_categoria" rows="3"
+            placeholder="Descreva a Categoria"></textarea>
+        </div>
+        <button class="btn-submit" type="submit">Cadastrar categoria</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../static/js/jquery-3.4.1.min.js"></script>
+  <script src="../static/js/bootstrap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <script src="../static/js/custom.js"></script>
+
+  <script>
+    function mostrarFormulario() {
+      var userType = document.getElementById('user-type').value;
+
+      // Esconde todos os formulários
+      document.getElementById('user-registration').style.display = 'none';
+      document.getElementById('employee-registration').style.display = 'none';
+      document.getElementById('category-registration').style.display = 'none';
+      document.getElementById('setor-registration').style.display = 'none';
+
+      // Mostra o formulário selecionado
+      if (userType === 'user') {
+        document.getElementById('user-registration').style.display = 'block';
+      } else if (userType === 'employee') {
+        document.getElementById('employee-registration').style.display = 'block';
+      } else if (userType === 'category') {
+        document.getElementById('category-registration').style.display = 'block';
+      } else if (userType === 'setor') {
+        document.getElementById('setor-registration').style.display = 'block';
+      }
+    }
+
+    // Máscara para CPF
+    document.getElementById('employee-cpf')?.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length <= 11) {
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        e.target.value = value;
+      }
+    });
+
+    // Máscara para telefone
+    document.getElementById('employee-telefone')?.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length <= 11) {
+        value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+        value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        e.target.value = value;
+      }
+    });
+  </script>
+</body>
+
+</html>

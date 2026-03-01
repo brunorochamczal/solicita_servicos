@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Solicita Senac</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
+  <!-- font awesome style -->
+  <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css">
+  <!-- Custom styles for this template -->
+  <link href="../static/css/style.css" rel="stylesheet">
+  <!-- responsive style -->
+  <link href="../static/css/responsive.css" rel="stylesheet">
+  <link href="../static/images/logo5.png" rel="icon" class="img-fluid">
+
+  <style>
+    label {
+      color: #007bff;
+    }
+
+
+
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+      margin-right: 15px;
+    }
+
+    .form-row .form-group:last-child {
+      margin-right: 0;
+    }
+
+    @media (max-width: 767px) {
+      .form-row .form-group {
+        margin-right: 0;
+        flex: 1 0 100%;
+      }
+    }
+
+    .btn-submit {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-submit:hover {
+      background-color: #0056b3;
+    }
+
+    .form-group label {
+      color: #007bff;
+    }
+
+    .form-control-file {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .form-select {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      color: #333;
+    }
+
+    .form-select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .button-container {
+      margin-top: -55px;
+      /* Ajuste o valor para mover os botões mais para cima */
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      /* Espaço entre os botões */
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+      background-color: #00408d;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-header {
+      margin-top: 22px;
+      /* Aumente esse valor para mover o título mais para baixo */
+      text-align: center;
+      /* Mantém o título centralizado */
+    }
+
+    .form-header h2 {
+      margin-top: 0;
+      /* Certifique-se de que não há margens adicionais no próprio título */
+    }
+
+    /* Adiciona um estilo ao botão de logout */
+    .inicial-button {
+      position: absolute;
+      /* Posiciona o botão de forma absoluta */
+      top: 170px;
+      /* Distância do topo */
+      left: 1px;
+      /* Distância da esquerda */
+      background-color: #007bff;
+      /* Cor de fundo do botão */
+      color: #ffffff;
+      /* Cor do texto do botão */
+      border: none;
+      /* Remove a borda padrão */
+      border-radius: 5px;
+      /* Cantos arredondados */
+      padding: 5px 15px;
+      /* Espaçamento interno */
+      font-size: 16px;
+      /* Tamanho da fonte */
+      text-align: center;
+      /* Alinhamento do texto */
+      text-decoration: none;
+      /* Remove o sublinhado */
+      display: inline-block;
+      /* Faz o botão ficar no mesmo nível */
+      z-index: 1000;
+      /* Garante que o botão fique acima de outros elementos */
+    }
+
+    .inicial-button a {
+      color: #ffffff;
+      /* Cor do texto do link dentro do botão */
+      text-decoration: none;
+      /* Remove o sublinhado do link */
+    }
+
+    .inicial-button:hover {
+      background-color: #0056b3;
+      /* Cor de fundo ao passar o mouse */
+    }
+
+    /* Ajustes gerais */
+    .form-select {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      color: #333;
+      width: 100%;
+      /* Garante que o select use toda a largura disponível */
+    }
+
+    .form-select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Ajusta os campos de formulário na tela pequena */
+    @media (max-width: 767px) {
+      .form-row .form-group {
+        flex: 1 0 100%;
+        margin-bottom: 15px;
+        /* Adiciona espaçamento abaixo dos campos em telas pequenas */
+      }
+    }
+
+    /* Ajustes específicos para o layout dos campos "Funcionário" e "Setor" */
+    .form-row .form-group {
+      margin-right: 0;
+      /* Remove o espaço extra à direita dos campos */
+    }
+
+
+
+
+    body {
+      background-color: #d1e3ff;
+      /* Cor azul exemplo */
+      margin: 0;
+      /* Remove margens externas */
+      padding: 0;
+      /* Remove espaçamentos internos */
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header_section service-header">
+    <div class="header_top">
+      <div class="container-fluid">
+        <div class="contact_nav">
+          <a href="">
+            <i class="fa fa-phone" aria-hidden="true"></i>
+            <span>Ligue : +55 (82) 2122-7858</span>
+          </a>
+          <a href="">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <span>Email : solicitasenac@gmail.com</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="header_bottom">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="/">
+            <span><img src="../static/images/logo5.png" alt="Logo"></span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div class="inicial-button">
+    <a href="/pagina_opcoes">
+      <i class="fa fa-sign-out"></i> Voltar
+    </a>
+  </div>
+
+  <br><br>
+
+  <!-- Formulário -->
+  <section class="service_section layout_padding">
+    <center>
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <div class="button-container">
+            <!-- <a href="cadastros.html"><button>Cadastros</button></a> -->
+            <!-- <a href="sede.html"><button>Sede</button></a> -->
+          </div>
+        </div>
+      </div>
+    </center>
+
+    <div class="container form-container">
+      <div class="form-header">
+        <h2><em>Abrir chamados</em></h2>
+      </div>
+      <!-- LINHA 159: Adicionar enctype -->
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+          <div class="col-md-6">
+            <label for="assunto">Assunto</label>
+            <input type="text" class="form-control" name="assunto" id="assunto" placeholder="Digite o assunto">
+          </div>
+
+
+          <!-- Adicionar após o campo assunto (linha 163) -->
+          <div class="form-row">
+            <div class="col-md-6">
+              <label for="assunto">Assunto</label>
+              <input type="text" class="form-control" name="assunto" id="assunto" placeholder="Digite o assunto"
+                required>
+            </div>
+            <div class="col-md-6">
+              <label for="funcionario">Funcionário responsável</label>
+              <input type="text" class="form-control" name="funcionario" id="funcionario"
+                placeholder="Nome do funcionário" required>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-6">
+            <label for="Local de serviços a serem executados">Local de serviços a serem executados</label>
+            <select name="local" class="form-select" id="Local de serviços a serem executados">
+              <option value="" disabled selected>Local de serviços a serem executados</option>
+              <option value="Local de serviços a serem executados">Local de serviços a serem executados 1</option>
+              <option value="Local de serviços a serem executados">Local de serviços a serem executados 2</option>
+              <option value="Local de serviços a serem executados">Local de serviços a serem executados 3</option>
+              <!-- Adicione outras opções conforme necessário -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-md-6">
+            <label for="prazo">Prazo</label>
+            <input type="date" name="prazo" class="form-control" id="prazo">
+          </div>
+          <div class="col-md-6">
+            <label for="setor">Setor do solicitante</label>
+            <select name="setor" class="form-select" id="setor">
+              <option value="" disabled selected>Setor do solicitante</option>
+              <option value="setor1">Setor do solicitante 1</option>
+              <option value="setor2">Setor do solicitante 2</option>
+              <option value="setor3">Setor do solicitante 3</option>
+              <!-- Adicione outras opções conforme necessário -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-md-6">
+            <label for="nome">Nome do solicitante</label>
+            <input type="text" name="nome_solicitante" class="form-control" id="nome" placeholder="Digite seu nome">
+          </div>
+          <div class="col-md-6">
+            <label for="email">E-mail do solicitante</label>
+            <input type="email" name="email_solicitante" class="form-control" id="email" placeholder="Digite seu e-mail"
+              required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-md-6">
+            <label for="telefone">Telefone/WhatsApp do solicitante</label>
+            <input type="tel" name="telefone" class="form-control" id="telefone"
+              placeholder="Digite seu telefone ou WhatsApp">
+          </div>
+          <div class="col-md-6">
+            <label for="unidade">Unidade</label>
+            <select name="unidade" class="form-select" id="unidade">
+              <option value="" disabled selected>Selecione Unidade</option>
+              <option value="carlos-milito">Carlos Milito - Maceió</option>
+              <option value="centro-gastronomia">Centro de Gastronomia - Maceió</option>
+              <option value="posto-palmeira">Posto Avançado - Palmeira Dos Índios</option>
+              <option value="posto-uniao">Posto Avançado - União Dos Palmares</option>
+              <option value="sede-adm">Sede Administrativa - Maceió</option>
+              <option value="unidade-arapiraca">Unidade do Agreste - Arapiraca</option>
+              <option value="unidade-jaragua">Unidade Jaraguá - Em construção/Maceió</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="descricao">Informações adicionais</label>
+          <textarea class="form-control" name="informacoes_adicionais" id="descricao" rows="3"
+            placeholder="Descreva o problema"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="imagem">Imagem anexa</label>
+          <input type="file" name="foto" class="form-control-file" id="imagem">
+        </div>
+
+        <button type="submit" class="btn-submit">Enviar</button>
+      </form>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="mt-3">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
+    </div>
+  </section>
+
+  <!-- info section -->
+  <section class="info_section">
+    <div class="container">
+      <h4>Entre em contato</h4>
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <div class="info_items">
+            <div class="row">
+              <div class="col-md-4">
+                <a href="">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                    <p>R. Pedro Paulino, 77 - Poço, Maceió - AL, 57025-340</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <p>+55 (82) 2122-7858</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </div>
+                    <p>solicitasenac@gmail.com</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end info section -->
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section">
+    <p>&copy; Todos os direitos reservados</p>
+  </section>
+  <!-- end footer section -->
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="../static/js/bootstrap.js"></script>
+  <!-- owl carousel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!-- custom js -->
+  <script src="../static/js/custom.js"></script>
+  <script>
+    document.getElementById('telefone').addEventListener('input', function (e) {
+      var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+      e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+  </script>
+
+</body>
+
+</html>
