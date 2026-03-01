@@ -389,7 +389,7 @@ def consultar_servicos():
                 resultado = cursor.fetchall()
     except Exception as e:
         flash(f'Erro ao obter solicitações: {str(e)}', 'danger')
-    return render_template('Consultas.html', resultado=resultado)
+    return render_template('consultas.html', resultado=resultado)
 
 
 @app.route('/grid_solicitacoes', methods=['GET', 'POST'])
