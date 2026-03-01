@@ -75,44 +75,100 @@ def permissao_required(*permissoes_permitidas):
 
 # ─── PDF ──────────────────────────────────────────────────────────────────────
 def gerar_pdf_bytes(servicos):
+    from reportlab.platypus import SimpleDocTemplate, Spacer
+    from reportlab.lib.units import cm
+
     pdf_buffer = BytesIO()
-    custom_page_size = (1850, 600)
-    p = canvas.Canvas(pdf_buffer, pagesize=custom_page_size)
-    width, height = custom_page_size
+
+    # Página A4 paisagem — espaço generoso para todas as colunas
+    PAGE_W = 29.7 * cm   # 841 pt
+    PAGE_H = 21.0 * cm   # 595 pt
+    MARGIN = 1.5 * cm
+
+    doc = SimpleDocTemplate(
+        pdf_buffer,
+        pagesize=(PAGE_W, PAGE_H),
+        leftMargin=MARGIN,
+        rightMargin=MARGIN,
+        topMargin=MARGIN,
+        bottomMargin=MARGIN,
+    )
+
     styles = getSampleStyleSheet()
+
+    # ── Estilos de parágrafo para dentro das células ──────────────────────────
+    header_style = ParagraphStyle(
+        'HeaderCell',
+        fontName='Helvetica-Bold',
+        fontSize=11,
+        textColor=colors.white,
+        leading=14,
+        wordWrap='CJK',
+    )
+    cell_style = ParagraphStyle(
+        'BodyCell',
+        fontName='Helvetica',
+        fontSize=11,
+        textColor=colors.HexColor('#115696'),
+        leading=15,
+        wordWrap='CJK',
+    )
+
+    # ── Largura disponível e proporção das colunas ────────────────────────────
+    usable_w = PAGE_W - 2 * MARGIN   # ~810 pt
+    # N°  | Assunto | Funcionário | Prazo  | Setor  | Solicitante | Telefone | Unidade | Informações
+    col_proportions = [0.06, 0.14, 0.11, 0.08, 0.09, 0.10, 0.10, 0.13, 0.19]
+    col_widths = [usable_w * p for p in col_proportions]
+
+    cabecalho = ["N°", "Assunto", "Funcionário", "Prazo", "Setor",
+                 "Solicitante", "Telefone", "Unidade", "Informações"]
+
+    # Linha de cabeçalho com Paragraphs para permitir wrap
+    header_row = [Paragraph(h, header_style) for h in cabecalho]
+
+    # Linhas de dados — cada célula é um Paragraph (garante quebra automática)
+    data_rows = []
+    for servico in servicos:
+        row = [Paragraph(str(c) if c is not None else '', cell_style) for c in servico]
+        data_rows.append(row)
+
+    tabela_dados = [header_row] + data_rows
+
+    tabela = Table(tabela_dados, colWidths=col_widths, repeatRows=1)
+    tabela.setStyle(TableStyle([
+        # Cabeçalho
+        ('BACKGROUND',    (0, 0), (-1, 0), colors.HexColor('#115696')),
+        ('TEXTCOLOR',     (0, 0), (-1, 0), colors.white),
+        ('ALIGN',         (0, 0), (-1, 0), 'LEFT'),
+        ('TOPPADDING',    (0, 0), (-1, 0), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
+        ('LEFTPADDING',   (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING',  (0, 0), (-1, -1), 6),
+        # Dados — linhas alternadas
+        ('BACKGROUND',    (0, 1), (-1, -1), colors.HexColor('#F6BF84')),
+        ('ROWBACKGROUNDS',(0, 1), (-1, -1),
+         [colors.HexColor('#FFF3E0'), colors.HexColor('#F6BF84')]),
+        ('TEXTCOLOR',     (0, 1), (-1, -1), colors.HexColor('#115696')),
+        ('TOPPADDING',    (0, 1), (-1, -1), 6),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 6),
+        # Grade
+        ('GRID',          (0, 0), (-1, -1), 0.5, colors.HexColor('#888888')),
+        ('VALIGN',        (0, 0), (-1, -1), 'TOP'),
+    ]))
+
+    # ── Título ────────────────────────────────────────────────────────────────
     title_style = ParagraphStyle(
-        name='TitleStyle', parent=styles['Title'],
-        fontName='Courier-Bold', fontSize=26,
-        textColor=colors.HexColor('#000000'), underline=True
+        'ReportTitle',
+        fontName='Helvetica-Bold',
+        fontSize=18,
+        textColor=colors.HexColor('#115696'),
+        alignment=1,      # centralizado
+        spaceAfter=14,
     )
     title = Paragraph("Relatório de Serviços", title_style)
-    title.wrapOn(p, width - 100, -40)
-    title.drawOn(p, 50, height - 100)
-    cabecalho = ["N°chamado", "Assunto", "Funcionário", "Prazo", "Setor",
-                 "Solicitante", "Telefone", "Unidade", "Informações"]
-    tabela_dados = [cabecalho] + [list(str(c) if c is not None else '' for c in servico) for servico in servicos]
-    colWidths = [80, 290, 150, 100, 130, 150, 100, 300, 335]
-    tabela = Table(tabela_dados, colWidths=colWidths)
-    tabela.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#115696')),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('ALIGN', (0, 0), (-1, 0), 'LEFT'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Courier-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 12),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#F6BF84')),
-        ('TEXTCOLOR', (0, 1), (-1, -1), colors.HexColor('#115696')),
-        ('FONTNAME', (0, 1), (-1, -1), 'Courier'),
-        ('FONTSIZE', (0, 1), (-1, -1), 12),
-        ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-    ]))
-    tabela.rowHeights = [30] * len(tabela_dados)
-    tabela.wrapOn(p, width - 100, 100)
-    tabela.drawOn(p, 50, height - 150 - (len(tabela_dados) * 30))
-    p.showPage()
-    p.save()
+
+    story = [title, tabela]
+    doc.build(story)
     pdf_buffer.seek(0)
     return pdf_buffer
 
@@ -376,7 +432,7 @@ def consultar_servicos():
                 resultado = cursor.fetchall()
     except Exception as e:
         flash(f'Erro ao obter serviços: {str(e)}', 'danger')
-    return render_template('consultas.html', resultado=resultado)
+    return render_template('Consultas.html', resultado=resultado)
 
 
 @app.route('/grid_solicitacoes')
@@ -633,4 +689,4 @@ def erro():
 # ─── INICIALIZAÇÃO ────────────────────────────────────────────────────────────
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False)False)
