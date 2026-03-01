@@ -10,16 +10,16 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
   <style>
-    body { font-family: Arial, sans-serif; background: #d1e3ff; }
+    body { background: #d1e3ff; }
     .table-custom th { background: #007bff; color: #fff; padding: 12px; }
     .table-custom td { padding: 12px; text-align: center; vertical-align: middle; }
     .table-custom tr:nth-child(odd) td  { background: #f8f9fa; }
-    .table-custom tr:nth-child(even) td { background: #ffecb5; }
+    .table-custom tr:nth-child(even) td { background: #fff8dc; }
     .table-custom tr:hover td { background: #ffddc1; }
-    .badge-aberto     { background: #ffc107; color: #000; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
-    .badge-confirmado { background: #17a2b8; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
-    .badge-executado  { background: #28a745; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
-    .badge-cancelado  { background: #dc3545; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+    .badge-aberto     { background:#ffc107; color:#000; padding:4px 10px; border-radius:12px; font-size:12px; }
+    .badge-confirmado { background:#17a2b8; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; }
+    .badge-executado  { background:#28a745; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; }
+    .badge-cancelado  { background:#dc3545; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; }
   </style>
 </head>
 <body>
@@ -47,7 +47,7 @@
       <a href="{{ url_for('servicos') }}" class="btn btn-outline-primary btn-sm">
         <i class="fa fa-arrow-left"></i> Voltar
       </a>
-      <h2 class="mb-0"><em>Consulta de Serviços</em></h2>
+      <h2 class="mb-0"><i class="fa fa-search text-primary"></i> Consulta de Serviços</h2>
       <span></span>
     </div>
 
@@ -63,11 +63,11 @@
 
     {# Filtros #}
     <div class="row g-2 mb-3">
-      <div class="col-6 col-md-2"><input type="text" id="fChamado"   class="form-control form-control-sm" placeholder="N° chamado"></div>
-      <div class="col-6 col-md-2"><input type="text" id="fNome"      class="form-control form-control-sm" placeholder="Solicitante"></div>
-      <div class="col-6 col-md-2"><input type="text" id="fUnidade"   class="form-control form-control-sm" placeholder="Unidade"></div>
-      <div class="col-6 col-md-2"><input type="text" id="fAssunto"   class="form-control form-control-sm" placeholder="Assunto"></div>
-      <div class="col-6 col-md-2"><input type="text" id="fLocal"     class="form-control form-control-sm" placeholder="Local"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fChamado"  class="form-control form-control-sm" placeholder="N° chamado"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fNome"     class="form-control form-control-sm" placeholder="Solicitante"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fUnidade"  class="form-control form-control-sm" placeholder="Unidade"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fAssunto"  class="form-control form-control-sm" placeholder="Assunto"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fLocal"    class="form-control form-control-sm" placeholder="Local"></div>
       <div class="col-6 col-md-2">
         <select id="fStatus" class="form-select form-select-sm">
           <option value="">Todos os status</option>
@@ -96,18 +96,18 @@
           {% if resultado %}
             {% for row in resultado %}
             <tr>
-              <td>{{ row.servicos_id_seq if row is mapping else row[0] }}</td>
-              <td>{{ row.nome_solicitante if row is mapping else row[1] }}</td>
-              <td>{{ row.unidade if row is mapping else row[2] }}</td>
-              <td>{{ row.assunto if row is mapping else row[3] }}</td>
-              <td>{{ row.local if row is mapping else row[4] }}</td>
+              <td>{{ row.servicos_id_seq }}</td>
+              <td>{{ row.nome_solicitante }}</td>
+              <td>{{ row.unidade }}</td>
+              <td>{{ row.assunto }}</td>
+              <td>{{ row.local or '—' }}</td>
               <td>
-                {% set st = (row.status if row is mapping else row[5])|lower %}
+                {% set st = (row.status or 'aberto')|lower %}
                 <span class="badge-{{ st }}">{{ st }}</span>
               </td>
               <td>
                 <button class="btn btn-sm btn-primary btn-ver"
-                  data-id="{{ row.servicos_id_seq if row is mapping else row[0] }}">
+                        data-id="{{ row.servicos_id_seq }}">
                   <i class="fa fa-eye"></i> Ver
                 </button>
               </td>
@@ -130,9 +130,9 @@
   </div>
 </div>
 
-{# Modal de detalhes #}
+{# ── MODAL DETALHES ── #}
 <div class="modal fade" id="modalDetalhe" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
         <h5 class="modal-title"><i class="fa fa-ticket"></i> Chamado N° <span id="mChamado"></span></h5>
@@ -151,39 +151,15 @@
 <section class="info_section mt-4">
   <div class="container">
     <h4>Entre em contato</h4>
-    <div class="row">
-      <div class="col-lg-10 mx-auto">
-        <div class="info_items">
-          <div class="row">
-            <div class="col-md-4">
-              <a href="#">
-                <div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div>
-                <p>R. Pedro Paulino, 77 – Maceió – AL</p></div>
-              </a>
-            </div>
-            <div class="col-md-4">
-              <a href="tel:+558221227858">
-                <div class="item"><div class="img-box"><i class="fa fa-phone"></i></div>
-                <p>+55 (82) 2122-7858</p></div>
-              </a>
-            </div>
-            <div class="col-md-4">
-              <a href="mailto:solicitasenac@gmail.com">
-                <div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div>
-                <p>solicitasenac@gmail.com</p></div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
+      <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Maceió – AL</p></div></a></div>
+      <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
+      <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
+    </div></div></div></div>
   </div>
 </section>
-
 <footer class="footer_section">
-  <div class="container">
-    <p>&copy; <span id="ano"></span> Todos os direitos reservados</p>
-  </div>
+  <div class="container"><p>&copy; <span id="ano"></span> Todos os direitos reservados</p></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -191,12 +167,11 @@
 <script>
 document.getElementById('ano').textContent = new Date().getFullYear();
 
-// ── Filtro da tabela ──────────────────────────────────────────────────────────
-const filtros = ['fChamado','fNome','fUnidade','fAssunto','fLocal','fStatus'];
+// ── Filtros ───────────────────────────────────────────────────────────────────
+var filtros = ['fChamado','fNome','fUnidade','fAssunto','fLocal','fStatus'];
 filtros.forEach(function(id) {
   document.getElementById(id).addEventListener('input', filtrar);
 });
-
 function filtrar() {
   var vals = filtros.map(function(id) {
     return document.getElementById(id).value.toLowerCase();
@@ -216,7 +191,7 @@ function filtrar() {
   if (sem) sem.style.display = found === 0 ? '' : 'none';
 }
 
-// ── Modal VER ─────────────────────────────────────────────────────────────────
+// ── Modal VER detalhes ────────────────────────────────────────────────────────
 document.querySelectorAll('.btn-ver').forEach(function(btn) {
   btn.addEventListener('click', function() {
     var id = this.dataset.id;
@@ -230,43 +205,64 @@ document.querySelectorAll('.btn-ver').forEach(function(btn) {
     fetch('/get_service_details/' + id)
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        var badgeMap = { aberto: 'warning', confirmado: 'info', executado: 'success', cancelado: 'danger' };
-        var statusClass = badgeMap[d.status] || 'secondary';
+        var badgeMap = {aberto:'warning', confirmado:'info', executado:'success', cancelado:'danger'};
+        var statusClass = badgeMap[(d.status||'').toLowerCase()] || 'secondary';
         var prazo = d.prazo ? new Date(d.prazo).toLocaleDateString('pt-BR') : '—';
-        var fotoHtml = d.foto
-          ? '<div class="text-center mt-3"><img src="/static/' + d.foto + '" class="img-fluid rounded shadow" style="max-height:320px;" alt="Foto do chamado"></div>'
-          : '<div class="text-center text-muted mt-3"><i class="fa fa-image fa-2x"></i><p>Sem imagem anexa</p></div>';
+
+        // ── FOTO: o banco armazena "uploads/arquivo.ext"
+        //    A rota /static serve os arquivos estáticos
+        //    Portanto a URL correta é /static/uploads/arquivo.ext
+        var fotoHtml = '';
+        if (d.foto && d.foto.trim() !== '') {
+          // Normaliza: remove qualquer prefixo duplicado
+          var caminhoFoto = d.foto.replace(/^(static\/|\/static\/)?(uploads\/)?/, '');
+          var urlFoto = '/static/uploads/' + caminhoFoto;
+          fotoHtml = '<div class="col-12">' +
+            '<div class="card border-0 bg-light"><div class="card-body text-center">' +
+              '<h6 class="text-primary fw-bold mb-3"><i class="fas fa-image"></i> Foto Anexada</h6>' +
+              '<img src="' + urlFoto + '" class="img-fluid rounded shadow" style="max-height:320px;" ' +
+                   'alt="Foto do chamado" ' +
+                   'onerror="this.parentNode.innerHTML=\'<p class=text-muted><i class=fas fa-exclamation-triangle></i> Imagem não encontrada</p>\'">' +
+            '</div></div>' +
+          '</div>';
+        } else {
+          fotoHtml = '<div class="col-12">' +
+            '<div class="card border-0 bg-light"><div class="card-body text-center text-muted">' +
+              '<i class="fas fa-image fa-2x mb-2"></i><p class="mb-0">Sem imagem anexa</p>' +
+            '</div></div>' +
+          '</div>';
+        }
 
         document.getElementById('modalBody').innerHTML =
           '<div class="row g-3">' +
             '<div class="col-md-6">' +
-              '<div class="card h-100 border-0 bg-light"><div class="card-body">' +
-                '<h6 class="text-primary fw-bold mb-3"><i class="fa fa-info-circle"></i> Dados do Chamado</h6>' +
-                '<p><strong>N° Chamado:</strong> ' + d.servicos_id_seq + '</p>' +
-                '<p><strong>Assunto:</strong> ' + (d.assunto || '—') + '</p>' +
-                '<p><strong>Local:</strong> ' + (d.local || '—') + '</p>' +
-                '<p><strong>Prazo:</strong> ' + prazo + '</p>' +
-                '<p><strong>Funcionário:</strong> ' + (d.funcionario || '—') + '</p>' +
-                '<p><strong>Status:</strong> <span class="badge bg-' + statusClass + '">' + d.status + '</span></p>' +
+              '<div class="card border-0 bg-light h-100"><div class="card-body">' +
+                '<h6 class="text-primary fw-bold mb-3"><i class="fas fa-clipboard-list"></i> Dados do Chamado</h6>' +
+                '<p class="mb-1"><strong>N°:</strong> ' + d.servicos_id_seq + '</p>' +
+                '<p class="mb-1"><strong>Assunto:</strong> ' + (d.assunto || '—') + '</p>' +
+                '<p class="mb-1"><strong>Local:</strong> ' + (d.local || '—') + '</p>' +
+                '<p class="mb-1"><strong>Prazo:</strong> ' + prazo + '</p>' +
+                '<p class="mb-1"><strong>Funcionário:</strong> ' + (d.funcionario || '—') + '</p>' +
+                '<p class="mb-0"><strong>Status:</strong> <span class="badge bg-' + statusClass + '">' + (d.status || '—') + '</span></p>' +
               '</div></div>' +
             '</div>' +
             '<div class="col-md-6">' +
-              '<div class="card h-100 border-0 bg-light"><div class="card-body">' +
-                '<h6 class="text-primary fw-bold mb-3"><i class="fa fa-user"></i> Dados do Solicitante</h6>' +
-                '<p><strong>Nome:</strong> ' + (d.nome_solicitante || '—') + '</p>' +
-                '<p><strong>E-mail:</strong> ' + (d.email_solicitante || '—') + '</p>' +
-                '<p><strong>Telefone:</strong> ' + (d.telefone || '—') + '</p>' +
-                '<p><strong>Unidade:</strong> ' + (d.unidade || '—') + '</p>' +
-                '<p><strong>Setor:</strong> ' + (d.setor || '—') + '</p>' +
+              '<div class="card border-0 bg-light h-100"><div class="card-body">' +
+                '<h6 class="text-primary fw-bold mb-3"><i class="fas fa-user"></i> Solicitante</h6>' +
+                '<p class="mb-1"><strong>Nome:</strong> ' + (d.nome_solicitante || '—') + '</p>' +
+                '<p class="mb-1"><strong>E-mail:</strong> ' + (d.email_solicitante || '—') + '</p>' +
+                '<p class="mb-1"><strong>Telefone:</strong> ' + (d.telefone || '—') + '</p>' +
+                '<p class="mb-1"><strong>Unidade:</strong> ' + (d.unidade || '—') + '</p>' +
+                '<p class="mb-0"><strong>Setor:</strong> ' + (d.setor || '—') + '</p>' +
               '</div></div>' +
             '</div>' +
             '<div class="col-12">' +
               '<div class="card border-0 bg-light"><div class="card-body">' +
-                '<h6 class="text-primary fw-bold mb-2"><i class="fa fa-align-left"></i> Informações Adicionais</h6>' +
+                '<h6 class="text-primary fw-bold mb-2"><i class="fas fa-align-left"></i> Informações Adicionais</h6>' +
                 '<p class="mb-0">' + (d.informacoes_adicionais || 'Nenhuma informação adicional.') + '</p>' +
               '</div></div>' +
             '</div>' +
-            '<div class="col-12">' + fotoHtml + '</div>' +
+            fotoHtml +
           '</div>';
       })
       .catch(function() {
@@ -276,14 +272,14 @@ document.querySelectorAll('.btn-ver').forEach(function(btn) {
   });
 });
 
-// ── Gerar PDF ─────────────────────────────────────────────────────────────────
+// ── PDF ───────────────────────────────────────────────────────────────────────
 document.getElementById('btnPdf').addEventListener('click', function() {
   var tabela = document.getElementById('tabelaServicos').cloneNode(true);
   tabela.querySelectorAll('tr').forEach(function(r) {
-    if (r.cells[6]) r.deleteCell(6);
+    if (r.cells[6]) r.deleteCell(6);  // remove coluna Ação
   });
   var content = document.createElement('div');
-  content.innerHTML = '<h2 style="text-align:center">Relatório de Serviços</h2>' + tabela.outerHTML;
+  content.innerHTML = '<h2 style="text-align:center;margin-bottom:16px;">Relatório de Serviços</h2>' + tabela.outerHTML;
   html2pdf().from(content).set({
     margin: 1,
     filename: 'consulta_servicos.pdf',
