@@ -170,13 +170,17 @@ def esqueceu_senha():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('index.html', nome_usuario=session.get('user_nome', ''))
+    return render_template('index.html',
+                           nome_usuario=session.get('user_nome', ''),
+                           user_permissao=session.get('user_permissao', ''))
 
 
 @app.route('/servicos')
 @login_required
 def servicos():
-    return render_template('index1.html', nome_usuario=session.get('user_nome', ''))
+    return render_template('index1.html',
+                           nome_usuario=session.get('user_nome', ''),
+                           user_permissao=session.get('user_permissao', ''))
 
 
 # ─── CADASTROS (apenas Administrador) ────────────────────────────────────────
