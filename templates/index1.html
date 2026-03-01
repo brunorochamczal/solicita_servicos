@@ -83,7 +83,7 @@
               <div class="detail-box"><h4>Consultar Serviços</h4></div>
             </a>
           </div>
-          {% if session.get('user_permissao') == 'Administrador' %}
+          {% if user_permissao == 'Administrador' %}
           <div class="box">
             <a href="{{ url_for('confirmar_servicos') }}">
               <div class="img-box"><img src="{{ url_for('static', filename='images/confirm.png') }}" alt=""></div>
