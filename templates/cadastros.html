@@ -39,7 +39,7 @@
       <div class="container-fluid">
         <div class="contact_nav">
           <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
-          <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+          <a href="/cdn-cgi/l/email-protection#aeddc1c2c7cdc7dacfddcbc0cfcdeec9c3cfc7c280cdc1c3"><i class="fa fa-envelope"></i><span>Email: <span class="__cf_email__" data-cfemail="3f4c5053565c564b5e4c5a515e5c7f58525e5653115c5052">[email&#160;protected]</span></span></a>
         </div>
       </div>
     </div>
@@ -149,7 +149,14 @@
         </select>
       </div>
       <div class="form-group"><label>Telefone *</label><input type="text" id="telFuncionario" name="telefone" placeholder="(00) 00000-0000" required></div>
-      <div class="form-group"><label>Setor *</label><input type="text" name="setor" placeholder="Setor de trabalho" required></div>
+      <div class="form-group"><label>Setor *</label>
+        <select name="setor" required>
+          <option value="" disabled selected>Selecione o setor</option>
+          {% for s in setores %}
+          <option value="{{ s }}">{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
       <div class="form-group">
         <label>Turno *</label>
         <select name="turno" required>
@@ -181,7 +188,7 @@
   </div>
 </div>
 
-<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
 <script>
@@ -205,14 +212,4 @@ document.getElementById('telFuncionario')?.addEventListener('input', function(e)
 });
 
 // Validação matrícula numérica
-document.getElementById('matriculaUsuario')?.addEventListener('input', function(e) {
-  e.target.value = e.target.value.replace(/\D/g,'');
-});
-
-// Se voltou com erro, mostra o formulário correto
-{% if request.method == 'POST' %}
-// re-abrir formulário após erro de validação
-{% endif %}
-</script>
-</body>
-</html>
+document.getElementById('matriculaUsuario')?.addEventListener('inp
