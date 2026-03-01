@@ -18,11 +18,22 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-DATABASE_URL = os.environ.get('DATABASE_URL', "postgresql://postgres:1234@localhost:5432/testando")
+# ─── CONEXÃO COM BANCO DE DADOS ───────────────────────────────────────────────
+# Prioridade: variável de ambiente DATABASE_URL (Render) > string local (desenvolvimento)
+DATABASE_URL = os.environ.get(
+    'DATABASE_URL',
+    "postgresql://neondb_owner:npg_giweRPT6d7Gp@ep-autumn-fire-aiuuc96n-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+)
+
+# O Render às vezes fornece a URL com prefixo "postgres://" (antigo).
+# O psycopg2 exige "postgresql://", então corrigimos automaticamente.
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 
 def get_db_connection():
-    conn = psycopg2.connect(DATABASE_URL)
+    """Retorna uma conexão com o banco de dados PostgreSQL (Neon)."""
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     return conn
 
 
@@ -600,5 +611,9 @@ def erro():
     return render_template('erro.html')
 
 
+# ─── INICIALIZAÇÃO ────────────────────────────────────────────────────────────
+# O Render usa Gunicorn para iniciar — ele importa o objeto 'app' diretamente.
+# O bloco abaixo serve apenas para rodar localmente com: python sistema_web.py
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
