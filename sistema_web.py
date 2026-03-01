@@ -225,16 +225,20 @@ def esqueceu_senha():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    nome_completo = session.get('user_nome', '')
+    primeiro_nome = nome_completo.split()[0] if nome_completo else ''
     return render_template('index.html',
-                           nome_usuario=session.get('user_nome', ''),
+                           nome_usuario=primeiro_nome,
                            user_permissao=session.get('user_permissao', ''))
 
 
 @app.route('/servicos')
 @login_required
 def servicos():
+    nome_completo = session.get('user_nome', '')
+    primeiro_nome = nome_completo.split()[0] if nome_completo else ''
     return render_template('index1.html',
-                           nome_usuario=session.get('user_nome', ''),
+                           nome_usuario=primeiro_nome,
                            user_permissao=session.get('user_permissao', ''))
 
 
