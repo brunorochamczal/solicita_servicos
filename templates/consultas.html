@@ -10,18 +10,16 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
   <style>
-    body { font-family:Arial,sans-serif; background:#d1e3ff; }
-    .table-custom th { background:#007bff; color:#fff; padding:12px; }
-    .table-custom td { padding:12px; text-align:center; vertical-align:middle; }
-    .table-custom tr:nth-child(odd) td { background:#f8f9fa; }
-    .table-custom tr:nth-child(even) td { background:#ffecb5; }
-    .table-custom tr:hover td { background:#ffddc1; }
-    .badge-aberto     { background:#ffc107; color:#000; padding:4px 10px; border-radius:12px; font-size:12px; }
-    .badge-confirmado { background:#17a2b8; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; }
-    .badge-executado  { background:#28a745; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; }
-    .badge-cancelado  { background:#dc3545; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; }
-    .btn-chamado { background:none; border:none; color:#007bff; cursor:pointer; text-decoration:underline; font-size:14px; padding:0; }
-    .btn-chamado:hover { color:#0056b3; }
+    body { font-family: Arial, sans-serif; background: #d1e3ff; }
+    .table-custom th { background: #007bff; color: #fff; padding: 12px; }
+    .table-custom td { padding: 12px; text-align: center; vertical-align: middle; }
+    .table-custom tr:nth-child(odd) td  { background: #f8f9fa; }
+    .table-custom tr:nth-child(even) td { background: #ffecb5; }
+    .table-custom tr:hover td { background: #ffddc1; }
+    .badge-aberto     { background: #ffc107; color: #000; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+    .badge-confirmado { background: #17a2b8; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+    .badge-executado  { background: #28a745; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+    .badge-cancelado  { background: #dc3545; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
   </style>
 </head>
 <body>
@@ -63,13 +61,13 @@
     {% endif %}
     {% endwith %}
 
-    {# Filtros de pesquisa #}
+    {# Filtros #}
     <div class="row g-2 mb-3">
-      <div class="col-6 col-md-2"><input type="text" id="fChamado" class="form-control form-control-sm" placeholder="N° chamado"></div>
-      <div class="col-6 col-md-2"><input type="text" id="fNome" class="form-control form-control-sm" placeholder="Solicitante"></div>
-      <div class="col-6 col-md-2"><input type="text" id="fUnidade" class="form-control form-control-sm" placeholder="Unidade"></div>
-      <div class="col-6 col-md-2"><input type="text" id="fAssunto" class="form-control form-control-sm" placeholder="Assunto"></div>
-      <div class="col-6 col-md-2"><input type="text" id="fLocal" class="form-control form-control-sm" placeholder="Local"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fChamado"   class="form-control form-control-sm" placeholder="N° chamado"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fNome"      class="form-control form-control-sm" placeholder="Solicitante"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fUnidade"   class="form-control form-control-sm" placeholder="Unidade"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fAssunto"   class="form-control form-control-sm" placeholder="Assunto"></div>
+      <div class="col-6 col-md-2"><input type="text" id="fLocal"     class="form-control form-control-sm" placeholder="Local"></div>
       <div class="col-6 col-md-2">
         <select id="fStatus" class="form-select form-select-sm">
           <option value="">Todos os status</option>
@@ -109,32 +107,30 @@
               </td>
               <td>
                 <button class="btn btn-sm btn-primary btn-ver"
-                  data-id="{{ row.servicos_id_seq if row is mapping else row[0] }}"
-                  data-chamado="{{ row.servicos_id_seq if row is mapping else row[0] }}"
-                  data-solicitante="{{ row.nome_solicitante if row is mapping else row[1] }}"
-                  data-unidade="{{ row.unidade if row is mapping else row[2] }}"
-                  data-assunto="{{ row.assunto if row is mapping else row[3] }}"
-                  data-local="{{ row.local if row is mapping else row[4] }}"
-                  data-status="{{ (row.status if row is mapping else row[5])|lower }}">
+                  data-id="{{ row.servicos_id_seq if row is mapping else row[0] }}">
                   <i class="fa fa-eye"></i> Ver
                 </button>
               </td>
             </tr>
             {% endfor %}
           {% else %}
-          <tr id="semResultados"><td colspan="7" class="text-center text-muted">Nenhum chamado encontrado.</td></tr>
+          <tr id="semResultados">
+            <td colspan="7" class="text-center text-muted">Nenhum chamado encontrado.</td>
+          </tr>
           {% endif %}
         </tbody>
       </table>
     </div>
 
     <div class="text-center mt-3">
-      <button id="btnPdf" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Gerar PDF</button>
+      <button id="btnPdf" class="btn btn-danger">
+        <i class="fa fa-file-pdf-o"></i> Gerar PDF
+      </button>
     </div>
   </div>
 </div>
 
-{# Modal de detalhes completo #}
+{# Modal de detalhes #}
 <div class="modal fade" id="modalDetalhe" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
@@ -155,122 +151,144 @@
 <section class="info_section mt-4">
   <div class="container">
     <h4>Entre em contato</h4>
-    <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
-      <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Maceió – AL</p></div></a></div>
-      <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
-      <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
-    </div></div></div></div>
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <div class="info_items">
+          <div class="row">
+            <div class="col-md-4">
+              <a href="#">
+                <div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div>
+                <p>R. Pedro Paulino, 77 – Maceió – AL</p></div>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="tel:+558221227858">
+                <div class="item"><div class="img-box"><i class="fa fa-phone"></i></div>
+                <p>+55 (82) 2122-7858</p></div>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="mailto:solicitasenac@gmail.com">
+                <div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div>
+                <p>solicitasenac@gmail.com</p></div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
 <footer class="footer_section">
-  <div class="container"><p>&copy; <span id="ano"></span> Todos os direitos reservados</p></div>
+  <div class="container">
+    <p>&copy; <span id="ano"></span> Todos os direitos reservados</p>
+  </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
 <script>
 document.getElementById('ano').textContent = new Date().getFullYear();
 
-// Filtro da tabela
+// ── Filtro da tabela ──────────────────────────────────────────────────────────
 const filtros = ['fChamado','fNome','fUnidade','fAssunto','fLocal','fStatus'];
-filtros.forEach(id => {
+filtros.forEach(function(id) {
   document.getElementById(id).addEventListener('input', filtrar);
 });
 
 function filtrar() {
-  const vals = filtros.map(id => document.getElementById(id).value.toLowerCase());
-  const rows = document.querySelectorAll('#tableBody tr:not(#semResultados)');
-  let found = 0;
-  rows.forEach(row => {
-    const cells = row.querySelectorAll('td');
-    const match = vals.every((v, i) => {
+  var vals = filtros.map(function(id) {
+    return document.getElementById(id).value.toLowerCase();
+  });
+  var rows = document.querySelectorAll('#tableBody tr:not(#semResultados)');
+  var found = 0;
+  rows.forEach(function(row) {
+    var cells = row.querySelectorAll('td');
+    var match = vals.every(function(v, i) {
       if (!v) return true;
       return cells[i] && cells[i].textContent.toLowerCase().includes(v);
     });
     row.style.display = match ? '' : 'none';
     if (match) found++;
   });
-  const sem = document.getElementById('semResultados');
+  var sem = document.getElementById('semResultados');
   if (sem) sem.style.display = found === 0 ? '' : 'none';
 }
 
-// Abrir modal com detalhes via AJAX
-document.querySelectorAll('.btn-ver').forEach(btn => {
+// ── Modal VER ─────────────────────────────────────────────────────────────────
+document.querySelectorAll('.btn-ver').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    const id = this.dataset.id;
+    var id = this.dataset.id;
     document.getElementById('mChamado').textContent = id;
     document.getElementById('modalBody').innerHTML =
       '<div class="text-center py-4"><div class="spinner-border text-primary"></div></div>';
-    const modal = new bootstrap.Modal(document.getElementById('modalDetalhe'));
+
+    var modal = new bootstrap.Modal(document.getElementById('modalDetalhe'));
     modal.show();
 
-    fetch(`/get_service_details/${id}`)
-      .then(r => r.json())
-      .then(d => {
-        const badgeMap = { aberto:'warning', confirmado:'info', executado:'success', cancelado:'danger' };
-        const statusClass = badgeMap[d.status] || 'secondary';
-        const fotoHtml = d.foto
-          ? `<div class="text-center mt-3">
-               <img src="/static/${d.foto}" class="img-fluid rounded shadow" style="max-height:320px;" alt="Foto">
-             </div>`
-          : `<div class="text-center text-muted mt-3"><i class="fa fa-image fa-2x"></i><p>Sem imagem anexa</p></div>`;
-        const prazo = d.prazo ? new Date(d.prazo).toLocaleDateString('pt-BR') : '—';
+    fetch('/get_service_details/' + id)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var badgeMap = { aberto: 'warning', confirmado: 'info', executado: 'success', cancelado: 'danger' };
+        var statusClass = badgeMap[d.status] || 'secondary';
+        var prazo = d.prazo ? new Date(d.prazo).toLocaleDateString('pt-BR') : '—';
+        var fotoHtml = d.foto
+          ? '<div class="text-center mt-3"><img src="/static/' + d.foto + '" class="img-fluid rounded shadow" style="max-height:320px;" alt="Foto do chamado"></div>'
+          : '<div class="text-center text-muted mt-3"><i class="fa fa-image fa-2x"></i><p>Sem imagem anexa</p></div>';
 
-        document.getElementById('modalBody').innerHTML = `
-          <div class="row g-3">
-            <div class="col-md-6">
-              <div class="card h-100 border-0 bg-light">
-                <div class="card-body">
-                  <h6 class="text-primary fw-bold mb-3"><i class="fa fa-info-circle"></i> Dados do Chamado</h6>
-                  <p><strong>N° Chamado:</strong> ${d.servicos_id_seq}</p>
-                  <p><strong>Assunto:</strong> ${d.assunto || '—'}</p>
-                  <p><strong>Local:</strong> ${d.local || '—'}</p>
-                  <p><strong>Prazo:</strong> ${prazo}</p>
-                  <p><strong>Funcionário:</strong> ${d.funcionario || '—'}</p>
-                  <p><strong>Status:</strong> <span class="badge bg-${statusClass}">${d.status}</span></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card h-100 border-0 bg-light">
-                <div class="card-body">
-                  <h6 class="text-primary fw-bold mb-3"><i class="fa fa-user"></i> Dados do Solicitante</h6>
-                  <p><strong>Nome:</strong> ${d.nome_solicitante || '—'}</p>
-                  <p><strong>E-mail:</strong> ${d.email_solicitante || '—'}</p>
-                  <p><strong>Telefone:</strong> ${d.telefone || '—'}</p>
-                  <p><strong>Unidade:</strong> ${d.unidade || '—'}</p>
-                  <p><strong>Setor:</strong> ${d.setor || '—'}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="card border-0 bg-light">
-                <div class="card-body">
-                  <h6 class="text-primary fw-bold mb-2"><i class="fa fa-align-left"></i> Informações Adicionais</h6>
-                  <p class="mb-0">${d.informacoes_adicionais || 'Nenhuma informação adicional.'}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">${fotoHtml}</div>
-          </div>`;
-      })
-      .catch(() => {
         document.getElementById('modalBody').innerHTML =
-          '<div class="alert alert-danger">Erro ao carregar os detalhes.</div>';
+          '<div class="row g-3">' +
+            '<div class="col-md-6">' +
+              '<div class="card h-100 border-0 bg-light"><div class="card-body">' +
+                '<h6 class="text-primary fw-bold mb-3"><i class="fa fa-info-circle"></i> Dados do Chamado</h6>' +
+                '<p><strong>N° Chamado:</strong> ' + d.servicos_id_seq + '</p>' +
+                '<p><strong>Assunto:</strong> ' + (d.assunto || '—') + '</p>' +
+                '<p><strong>Local:</strong> ' + (d.local || '—') + '</p>' +
+                '<p><strong>Prazo:</strong> ' + prazo + '</p>' +
+                '<p><strong>Funcionário:</strong> ' + (d.funcionario || '—') + '</p>' +
+                '<p><strong>Status:</strong> <span class="badge bg-' + statusClass + '">' + d.status + '</span></p>' +
+              '</div></div>' +
+            '</div>' +
+            '<div class="col-md-6">' +
+              '<div class="card h-100 border-0 bg-light"><div class="card-body">' +
+                '<h6 class="text-primary fw-bold mb-3"><i class="fa fa-user"></i> Dados do Solicitante</h6>' +
+                '<p><strong>Nome:</strong> ' + (d.nome_solicitante || '—') + '</p>' +
+                '<p><strong>E-mail:</strong> ' + (d.email_solicitante || '—') + '</p>' +
+                '<p><strong>Telefone:</strong> ' + (d.telefone || '—') + '</p>' +
+                '<p><strong>Unidade:</strong> ' + (d.unidade || '—') + '</p>' +
+                '<p><strong>Setor:</strong> ' + (d.setor || '—') + '</p>' +
+              '</div></div>' +
+            '</div>' +
+            '<div class="col-12">' +
+              '<div class="card border-0 bg-light"><div class="card-body">' +
+                '<h6 class="text-primary fw-bold mb-2"><i class="fa fa-align-left"></i> Informações Adicionais</h6>' +
+                '<p class="mb-0">' + (d.informacoes_adicionais || 'Nenhuma informação adicional.') + '</p>' +
+              '</div></div>' +
+            '</div>' +
+            '<div class="col-12">' + fotoHtml + '</div>' +
+          '</div>';
+      })
+      .catch(function() {
+        document.getElementById('modalBody').innerHTML =
+          '<div class="alert alert-danger">Erro ao carregar os detalhes do chamado.</div>';
       });
   });
 });
 
-// Gerar PDF
+// ── Gerar PDF ─────────────────────────────────────────────────────────────────
 document.getElementById('btnPdf').addEventListener('click', function() {
-  const tabela = document.getElementById('tabelaServicos').cloneNode(true);
-  tabela.querySelectorAll('tr').forEach(r => { if(r.cells[6]) r.deleteCell(6); });
-  const content = document.createElement('div');
+  var tabela = document.getElementById('tabelaServicos').cloneNode(true);
+  tabela.querySelectorAll('tr').forEach(function(r) {
+    if (r.cells[6]) r.deleteCell(6);
+  });
+  var content = document.createElement('div');
   content.innerHTML = '<h2 style="text-align:center">Relatório de Serviços</h2>' + tabela.outerHTML;
   html2pdf().from(content).set({
-    margin:1, filename:'consulta_servicos.pdf',
-    html2canvas:{scale:2}, jsPDF:{unit:'in',format:'letter',orientation:'landscape'}
+    margin: 1,
+    filename: 'consulta_servicos.pdf',
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
   }).save();
 });
 </script>
