@@ -203,19 +203,4 @@ document.querySelectorAll('.btn-abrir-modal').forEach(btn => {
               <div class="card border-0 bg-light">
                 <div class="card-body">
                   <h6 class="text-warning fw-bold mb-2"><i class="fas fa-align-left"></i> Informações Adicionais</h6>
-                  <p class="mb-0">${d.informacoes_adicionais || 'Nenhuma.'}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">${fotoHtml}</div>
-          </div>`;
-      })
-      .catch(() => {
-        document.getElementById('modalDecidirBody').innerHTML =
-          '<div class="alert alert-danger">Erro ao carregar os detalhes.</div>';
-      });
-  });
-});
-</script>
-</body>
-</html>
+                  <p class="mb-0">${d.i
