@@ -38,7 +38,7 @@
       <div class="container-fluid">
         <div class="contact_nav">
           <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
-          <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+          <a href="/cdn-cgi/l/email-protection#4a3925262329233e2b392f242b290a2d272b232664292527"><i class="fa fa-envelope"></i><span>Email: <span class="__cf_email__" data-cfemail="91e2fefdf8f2f8e5f0e2f4fff0f2d1f6fcf0f8fdbff2fefc">[email&#160;protected]</span></span></a>
         </div>
       </div>
     </div>
@@ -83,12 +83,14 @@
               <div class="detail-box"><h4>Consultar Serviços</h4></div>
             </a>
           </div>
+          {% if session.get('user_permissao') == 'Administrador' %}
           <div class="box">
-            <a href="{{ url_for('consultar_servicos') }}?status=aberto">
+            <a href="{{ url_for('confirmar_servicos') }}">
               <div class="img-box"><img src="{{ url_for('static', filename='images/confirm.png') }}" alt=""></div>
               <div class="detail-box"><h4>Confirmação de Serviços</h4></div>
             </a>
           </div>
+          {% endif %}
           <div class="box">
             <a href="{{ url_for('executar_servicos') }}">
               <div class="img-box"><img src="{{ url_for('static', filename='images/valido.png') }}" alt=""></div>
@@ -106,7 +108,7 @@
       <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
         <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Poço, Maceió – AL</p></div></a></div>
         <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
-        <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
+        <div class="col-md-4"><a href="/cdn-cgi/l/email-protection#5b2834373238322f3a283e353a381b3c363a323775383436"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p><span class="__cf_email__" data-cfemail="ea9985868389839e8b998f848b89aa8d878b8386c4898587">[email&#160;protected]</span></p></div></a></div>
       </div></div></div></div>
     </div>
   </section>
@@ -116,10 +118,4 @@
   </footer>
 </div>
 
-<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
-<script>document.getElementById('ano').textContent = new Date().getFullYear();</script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="{{ url_for('static', filename='
