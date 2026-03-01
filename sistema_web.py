@@ -16,21 +16,21 @@ app = Flask(__name__)
 
 @app.before_request
 def limpar_sessao_invalida():
-    """Se a sessão estiver corrompida (cookie antigo/inválido), limpa silenciosamente."""
     try:
         _ = session.get('user_id')
     except Exception:
         session.clear()
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave_padrao_desenvolvimento_1212')
-app.config['SESSION_COOKIE_NAME'] = 'solicita_session'  # nome único evita conflito com cookies antigos
+app.config['SESSION_COOKIE_NAME'] = 'solicita_session'
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['SESSION_COOKIE_SECURE'] = True  # HTTPS no Render
+app.config['SESSION_COOKIE_SECURE'] = True
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# ─── CONEXÃO ──────────────────────────────────────────────────────────────────
 DATABASE_URL = os.environ.get(
     'DATABASE_URL',
     "postgresql://neondb_owner:npg_giweRPT6d7Gp@ep-autumn-fire-aiuuc96n-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
@@ -43,8 +43,11 @@ def get_db_connection():
     return psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
-# ─── DECORATORS ───────────────────────────────────────────────────────────────
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+# ─── DECORATORS ───────────────────────────────────────────────────────────────
 def login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -54,20 +57,23 @@ def login_required(f):
     return decorated
 
 
-def admin_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if 'user_id' not in session:
-            return redirect(url_for('login'))
-        if session.get('user_permissao') != 'Administrador':
-            flash('Acesso restrito a administradores.', 'danger')
-            return redirect(url_for('dashboard'))
-        return f(*args, **kwargs)
-    return decorated
+def permissao_required(*permissoes_permitidas):
+    """Aceita lista de permissões. Administrador sempre passa."""
+    def decorator(f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            if 'user_id' not in session:
+                return redirect(url_for('login'))
+            p = session.get('user_permissao', '')
+            if p == 'Administrador' or p in permissoes_permitidas:
+                return f(*args, **kwargs)
+            flash('Você não tem permissão para acessar esta área.', 'danger')
+            return redirect(url_for('servicos'))
+        return decorated
+    return decorator
 
 
-# ─── FUNÇÕES AUXILIARES ───────────────────────────────────────────────────────
-
+# ─── PDF ──────────────────────────────────────────────────────────────────────
 def gerar_pdf_bytes(servicos):
     pdf_buffer = BytesIO()
     custom_page_size = (1850, 600)
@@ -82,9 +88,9 @@ def gerar_pdf_bytes(servicos):
     title = Paragraph("Relatório de Serviços", title_style)
     title.wrapOn(p, width - 100, -40)
     title.drawOn(p, 50, height - 100)
-    cabecalho = ["N°chamado", "Assunto", "Nome Funcionário", "Prazo", "Setor",
-                 "Nome Solicitante", "Telefone", "Unidade", "Informações Gerais"]
-    tabela_dados = [cabecalho] + [list(servico) for servico in servicos]
+    cabecalho = ["N°chamado", "Assunto", "Funcionário", "Prazo", "Setor",
+                 "Solicitante", "Telefone", "Unidade", "Informações"]
+    tabela_dados = [cabecalho] + [list(str(c) if c is not None else '' for c in servico) for servico in servicos]
     colWidths = [80, 290, 150, 100, 130, 150, 100, 300, 335]
     tabela = Table(tabela_dados, colWidths=colWidths)
     tabela.setStyle(TableStyle([
@@ -111,24 +117,7 @@ def gerar_pdf_bytes(servicos):
     return pdf_buffer
 
 
-def buscar_solicitacoes_por_id(servicos_id_seq):
-    try:
-        with get_db_connection() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cursor:
-                cursor.execute("""
-                    SELECT servicos_id_seq, assunto, funcionario, prazo, setor, unidade,
-                           nome_solicitante, email_solicitante, telefone, informacoes_adicionais, status, foto, local
-                    FROM servicos WHERE servicos_id_seq = %s
-                """, (servicos_id_seq,))
-                solicitacoes = cursor.fetchall()
-                return {"solicitacoes": solicitacoes}
-    except Exception as e:
-        print(f"Erro ao buscar dados: {e}")
-        return {"solicitacoes": []}
-
-
-# ─── AUTENTICAÇÃO ─────────────────────────────────────────────────────────────
-
+# ─── LOGIN / LOGOUT ───────────────────────────────────────────────────────────
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if 'user_id' in session:
@@ -153,7 +142,7 @@ def login():
                 flash(f'Bem-vindo, {user[1]}!', 'success')
                 return redirect(url_for('dashboard'))
             else:
-                flash('E-mail ou senha inválidos. Tente novamente.', 'danger')
+                flash('E-mail ou senha inválidos.', 'danger')
                 return render_template('login1.html', email=email)
         except Exception as e:
             flash(f'Erro ao tentar login: {str(e)}', 'danger')
@@ -177,7 +166,6 @@ def esqueceu_senha():
 
 
 # ─── DASHBOARD ────────────────────────────────────────────────────────────────
-
 @app.route('/dashboard')
 @login_required
 def dashboard():
@@ -194,10 +182,9 @@ def servicos():
                            user_permissao=session.get('user_permissao', ''))
 
 
-# ─── CADASTROS (apenas Administrador) ────────────────────────────────────────
-
+# ─── CADASTROS — somente Administrador ───────────────────────────────────────
 @app.route('/cadastros')
-@admin_required
+@permissao_required()   # só Administrador (nenhuma outra permissão é listada)
 def cadastros():
     setores = []
     try:
@@ -213,47 +200,42 @@ def cadastros():
 @app.route('/cadastre_usuarios', methods=['GET', 'POST'])
 def cadastre_usuarios():
     if request.method == 'POST':
-        nome = request.form.get('nome', '').strip()
-        email = request.form.get('email', '').strip()
-        senha = request.form.get('senha', '')
+        nome      = request.form.get('nome', '').strip()
+        email     = request.form.get('email', '').strip()
+        senha     = request.form.get('senha', '')
         matricula = request.form.get('matricula', '').strip()
-        setor = request.form.get('setor', '').strip()
-        unidade = request.form.get('unidade', '')
+        setor     = request.form.get('setor', '').strip()
+        unidade   = request.form.get('unidade', '')
         permissao = request.form.get('permissao', '')
         if not all([nome, email, senha, matricula, setor, unidade, permissao]):
             flash('Todos os campos obrigatórios devem ser preenchidos.', 'warning')
-            return render_template('cadastros_usuario.html', nome=nome, email=email,
-                                   setor=setor, unidade=unidade)
+            return render_template('cadastros_usuario.html')
         if not matricula.isdigit():
             flash('Matrícula inválida. Somente números são permitidos.', 'warning')
-            return render_template('cadastros_usuario.html', nome=nome, email=email,
-                                   setor=setor, unidade=unidade)
+            return render_template('cadastros_usuario.html')
         try:
             with get_db_connection() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute('SELECT id FROM usuarios WHERE email = %s', (email,))
                     if cursor.fetchone():
-                        flash('E-mail já cadastrado. Tente outro e-mail.', 'warning')
-                        return render_template('cadastros_usuario.html', nome=nome, email=email,
-                                               setor=setor, unidade=unidade)
+                        flash('E-mail já cadastrado.', 'warning')
+                        return render_template('cadastros_usuario.html')
                     senha_hash = generate_password_hash(senha)
                     cursor.execute(
                         'INSERT INTO usuarios (matricula, nome, email, senha, setor, unidade, permissao) '
-                        'VALUES (%s, %s, %s, %s, %s, %s, %s)',
+                        'VALUES (%s,%s,%s,%s,%s,%s,%s)',
                         (matricula, nome, email, senha_hash, setor, unidade, permissao)
                     )
                     conn.commit()
-            flash('Usuário cadastrado com sucesso! Faça login para continuar.', 'success')
+            flash('Usuário cadastrado com sucesso!', 'success')
             return redirect(url_for('login'))
         except Exception as e:
             flash(f'Erro ao cadastrar usuário: {str(e)}', 'danger')
-            return render_template('cadastros_usuario.html', nome=nome, email=email,
-                                   setor=setor, unidade=unidade)
     return render_template('cadastros_usuario.html')
 
 
 @app.route('/cadastre_funcionarios', methods=['GET', 'POST'])
-@admin_required
+@permissao_required()
 def cadastre_funcionarios():
     if request.method == 'POST':
         campos = ['matricula', 'nome', 'email', 'cpf', 'datanasc', 'regiao',
@@ -272,24 +254,23 @@ def cadastre_funcionarios():
                     )
                     conn.commit()
             flash('Funcionário cadastrado com sucesso!', 'success')
-            return redirect(url_for('cadastros'))
         except Exception as e:
             flash(f'Erro ao cadastrar funcionário: {str(e)}', 'danger')
     return redirect(url_for('cadastros'))
 
 
 @app.route('/cadastre_categorias', methods=['GET', 'POST'])
-@admin_required
+@permissao_required()
 def cadastre_categorias():
     if request.method == 'POST':
-        nome_categoria = request.form.get('nome_categoria', '').strip()
-        descricao_categoria = request.form.get('descricao_categoria', '').strip()
+        nome_cat = request.form.get('nome_categoria', '').strip()
+        desc_cat = request.form.get('descricao_categoria', '').strip()
         try:
             with get_db_connection() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO categoria_servicos (nome_categoria, descricao_categoria) VALUES (%s, %s)",
-                        (nome_categoria, descricao_categoria)
+                        "INSERT INTO categoria_servicos (nome_categoria, descricao_categoria) VALUES (%s,%s)",
+                        (nome_cat, desc_cat)
                     )
                     conn.commit()
             flash('Categoria cadastrada com sucesso!', 'success')
@@ -299,7 +280,7 @@ def cadastre_categorias():
 
 
 @app.route('/cadastre_setores', methods=['GET', 'POST'])
-@admin_required
+@permissao_required()
 def cadastre_setores():
     if request.method == 'POST':
         nome_setor = request.form.get('nome_setor', '').strip()
@@ -314,12 +295,17 @@ def cadastre_setores():
     return redirect(url_for('cadastros'))
 
 
-# ─── CHAMADOS ────────────────────────────────────────────────────────────────
-
+# ─── ABRIR CHAMADO — Solicitação + Administrador ──────────────────────────────
 @app.route('/abrir_chamado', methods=['GET', 'POST'])
-@login_required
+@permissao_required('Solicitação')
 def abrir_chamado():
-    # Buscar lista de funcionários para o select
+    """
+    UPLOAD DE FOTO:
+    - O arquivo é recebido via multipart/form-data
+    - É salvo em static/uploads/<nome_arquivo>  (pasta no servidor)
+    - O banco armazena apenas o caminho relativo: "uploads/<nome_arquivo>"
+    - Para exibir: <img src="/static/uploads/<nome_arquivo>">
+    """
     funcionarios = []
     try:
         with get_db_connection() as conn:
@@ -330,23 +316,23 @@ def abrir_chamado():
         flash(f'Erro ao carregar funcionários: {str(e)}', 'danger')
 
     if request.method == 'POST':
-        assunto = request.form.get('assunto', '').strip()
-        funcionario = request.form.get('funcionario', '').strip()
-        prazo = request.form.get('prazo') or None
-        setor = request.form.get('setor', '')
-        local = request.form.get('local', '')
-        nome_solicitante = request.form.get('nome_solicitante', '').strip()
-        email_solicitante = request.form.get('email_solicitante', '').strip()
-        telefone = request.form.get('telefone', '').strip()
-        unidade = request.form.get('unidade', '')
+        assunto               = request.form.get('assunto', '').strip()
+        funcionario           = request.form.get('funcionario', '').strip()
+        prazo                 = request.form.get('prazo') or None
+        setor                 = request.form.get('setor', '')
+        local                 = request.form.get('local', '')
+        nome_solicitante      = request.form.get('nome_solicitante', '').strip()
+        email_solicitante     = request.form.get('email_solicitante', '').strip()
+        telefone              = request.form.get('telefone', '').strip()
+        unidade               = request.form.get('unidade', '')
         informacoes_adicionais = request.form.get('informacoes_adicionais', '').strip()
         foto = request.files.get('foto')
 
         filename = None
-        if foto and foto.filename:
+        if foto and foto.filename and allowed_file(foto.filename):
             filename = secure_filename(foto.filename)
             foto.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            filename = f"uploads/{filename}"
+            filename = f"uploads/{filename}"   # caminho relativo salvo no banco
 
         try:
             with get_db_connection() as conn:
@@ -372,10 +358,11 @@ def abrir_chamado():
 
 @app.route('/cadastre_solicitacoes', methods=['GET', 'POST'])
 def cadastre_solicitacoes():
-    return abrir_chamado()
+    return redirect(url_for('abrir_chamado'))
 
 
-@app.route('/consultar_servicos', methods=['GET', 'POST'])
+# ─── CONSULTAR SERVIÇOS — todos os perfis ─────────────────────────────────────
+@app.route('/consultar_servicos')
 @login_required
 def consultar_servicos():
     resultado = []
@@ -388,19 +375,18 @@ def consultar_servicos():
                 )
                 resultado = cursor.fetchall()
     except Exception as e:
-        flash(f'Erro ao obter solicitações: {str(e)}', 'danger')
-    return render_template('consultas.html', resultado=resultado)
+        flash(f'Erro ao obter serviços: {str(e)}', 'danger')
+    return render_template('Consultas.html', resultado=resultado)
 
 
-@app.route('/grid_solicitacoes', methods=['GET', 'POST'])
+@app.route('/grid_solicitacoes')
 def grid_solicitacoes():
-    return consultar_servicos()
+    return redirect(url_for('consultar_servicos'))
 
 
-# ─── CONFIRMAÇÃO DE SERVIÇOS (somente Administrador) ─────────────────────────
-
+# ─── CONFIRMAÇÃO — Confirmação + Administrador ────────────────────────────────
 @app.route('/confirmar_servicos')
-@admin_required
+@permissao_required('Confirmação')
 def confirmar_servicos():
     resultado = []
     try:
@@ -417,10 +403,12 @@ def confirmar_servicos():
 
 
 @app.route('/decidir_servico', methods=['POST'])
-@admin_required
+@permissao_required('Confirmação')
 def decidir_servico():
-    servicos_id_seq = request.form.get('servicos_id_seq')
-    decisao = request.form.get('decisao')  # 'confirmado' ou 'descartado'
+    """Chefe decide se o chamado prossegue (confirmado) ou é rejeitado (cancelado)."""
+    servico_id = request.form.get('servicos_id_seq')
+    decisao    = request.form.get('decisao')   # 'confirmado' ou 'descartado'
+    observacao = request.form.get('observacao_confirmacao', '').strip()
 
     if decisao not in ('confirmado', 'descartado'):
         flash('Decisão inválida.', 'danger')
@@ -431,50 +419,23 @@ def decidir_servico():
         with get_db_connection() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(
-                    "UPDATE servicos SET status = %s WHERE servicos_id_seq = %s",
-                    (novo_status, servicos_id_seq)
+                    "UPDATE servicos SET status = %s, observacao_confirmacao = %s "
+                    "WHERE servicos_id_seq = %s",
+                    (novo_status, observacao, servico_id)
                 )
                 conn.commit()
-        msg = 'Chamado confirmado! Agora aparece em Executar Serviços.' if novo_status == 'confirmado' \
-              else 'Chamado descartado.'
-        flash(msg, 'success' if novo_status == 'confirmado' else 'warning')
+        if novo_status == 'confirmado':
+            flash('Chamado confirmado! Agora aparece em Executar Serviços.', 'success')
+        else:
+            flash('Chamado descartado com sucesso.', 'warning')
     except Exception as e:
         flash(f'Erro ao atualizar chamado: {str(e)}', 'danger')
-
     return redirect(url_for('confirmar_servicos'))
 
 
-# ─── DETALHE / EXECUTAR ───────────────────────────────────────────────────────
-
-@app.route('/servico/<int:servicos_id_seq>', methods=['GET', 'POST'])
-@login_required
-def servico_detalhe(servicos_id_seq):
-    if request.method == 'POST':
-        novo_status = request.form.get('novo_status', 'confirmado')
-        try:
-            with get_db_connection() as conn:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        "UPDATE servicos SET status = %s WHERE servicos_id_seq = %s",
-                        (novo_status, servicos_id_seq)
-                    )
-                    conn.commit()
-            flash(f'Chamado atualizado para "{novo_status}" com sucesso!', 'success')
-            return redirect(url_for('consultar_servicos'))
-        except Exception as e:
-            flash(f'Erro ao atualizar chamado: {str(e)}', 'danger')
-
-    dados = buscar_solicitacoes_por_id(servicos_id_seq)
-    if dados['solicitacoes']:
-        return render_template('servico_solicitacoes.html',
-                               solicitacao=dados['solicitacoes'][0],
-                               servicos_id_seq=servicos_id_seq)
-    flash('Chamado não encontrado.', 'danger')
-    return redirect(url_for('consultar_servicos'))
-
-
-@app.route('/executar_servicos', methods=['GET', 'POST'])
-@login_required
+# ─── EXECUTAR SERVIÇOS — Executar + Administrador ────────────────────────────
+@app.route('/executar_servicos')
+@permissao_required('Executar')
 def executar_servicos():
     resultado = []
     try:
@@ -488,41 +449,36 @@ def executar_servicos():
                 resultado = cursor.fetchall()
     except Exception as e:
         flash(f'Erro ao obter dados: {str(e)}', 'danger')
-    return render_template('grid_visualizacao.html', resultado=resultado)
+    return render_template('executar_servicos.html', resultado=resultado)
 
 
-@app.route('/grid_visualizacao', methods=['GET', 'POST'])
-def visualizacao():
-    return executar_servicos()
-
-
-@app.route('/executar/<int:servicos_id_seq>', methods=['GET', 'POST'])
-@login_required
-def executar_detalhe(servicos_id_seq):
-    if request.method == 'POST':
-        try:
-            with get_db_connection() as conn:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        "UPDATE servicos SET status = 'executado' WHERE servicos_id_seq = %s",
-                        (servicos_id_seq,)
-                    )
-                    conn.commit()
-            flash('Serviço marcado como executado!', 'success')
-            return redirect(url_for('executar_servicos'))
-        except Exception as e:
-            flash(f'Erro ao atualizar: {str(e)}', 'danger')
-
-    dados = buscar_solicitacoes_por_id(servicos_id_seq)
-    if dados['solicitacoes']:
-        return render_template('visualizacao.html',
-                               solicitacao=dados['solicitacoes'][0],
-                               servicos_id_seq=servicos_id_seq)
+@app.route('/concluir_servico', methods=['POST'])
+@permissao_required('Executar')
+def concluir_servico():
+    """Trabalhador confirma que o serviço foi realizado, com observação opcional."""
+    servico_id = request.form.get('servicos_id_seq')
+    observacao = request.form.get('observacao_execucao', '').strip()
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE servicos SET status = 'executado', observacao_execucao = %s "
+                    "WHERE servicos_id_seq = %s",
+                    (observacao, servico_id)
+                )
+                conn.commit()
+        flash('Serviço marcado como executado com sucesso!', 'success')
+    except Exception as e:
+        flash(f'Erro ao concluir serviço: {str(e)}', 'danger')
     return redirect(url_for('executar_servicos'))
 
 
-# ─── RELATÓRIO ────────────────────────────────────────────────────────────────
+@app.route('/grid_visualizacao')
+def grid_visualizacao():
+    return redirect(url_for('executar_servicos'))
 
+
+# ─── RELATÓRIO — todos os perfis ──────────────────────────────────────────────
 @app.route('/relatorio')
 @login_required
 def relatorio():
@@ -562,7 +518,37 @@ def gerar_pdf():
         return redirect(url_for('relatorio'))
 
 
-# ─── USUÁRIOS / API ───────────────────────────────────────────────────────────
+# ─── API JSON ─────────────────────────────────────────────────────────────────
+@app.route('/get_service_details/<int:id>')
+@login_required
+def get_service_details(id):
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+                cursor.execute("SELECT * FROM servicos WHERE servicos_id_seq = %s", (id,))
+                servico = cursor.fetchone()
+        if servico:
+            data = dict(servico)
+            if data.get('prazo'):
+                data['prazo'] = str(data['prazo'])
+            # Normaliza o caminho da foto para sempre ser "uploads/arquivo.ext"
+            foto = data.get('foto') or ''
+            if foto:
+                # Remove prefixos duplicados caso existam
+                foto = foto.replace('static/uploads/', '').replace('uploads/', '')
+                data['foto'] = f"uploads/{foto}"
+            return jsonify(data)
+        return jsonify({'error': 'Serviço não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/enviar_nome_usuario')
+def enviar_nome_usuario():
+    if 'user_id' in session:
+        return jsonify({"nome_usuario": session.get('user_nome', 'Usuário')})
+    return jsonify({"nome_usuario": "Visitante"})
+
 
 @app.route('/usuarios')
 @login_required
@@ -596,38 +582,47 @@ def ver_imagem(servicos_id_seq):
         return redirect(url_for('consultar_servicos'))
 
 
-@app.route('/get_service_details/<int:id>')
-@login_required
-def get_service_details(id):
-    try:
-        with get_db_connection() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cursor:
-                cursor.execute("SELECT * FROM servicos WHERE servicos_id_seq = %s", (id,))
-                servico = cursor.fetchone()
-        if servico:
-            # Converter prazo para string para serializar em JSON
-            data = dict(servico)
-            if data.get('prazo'):
-                data['prazo'] = str(data['prazo'])
-            return jsonify(data)
-        return jsonify({'error': 'Serviço não encontrado'}), 404
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-@app.route('/enviar_nome_usuario')
-def enviar_nome_usuario():
-    if 'user_id' in session:
-        return jsonify({"nome_usuario": session.get('user_nome', 'Usuário')})
-    return jsonify({"nome_usuario": "Visitante"})
-
-
-# ─── AJUDA / ERRO ─────────────────────────────────────────────────────────────
-
+# ─── AJUDA ────────────────────────────────────────────────────────────────────
 @app.route('/ajuda')
 @login_required
 def ajuda():
     return render_template('pagina_ajuda.html')
+
+
+@app.route('/ajuda/abrir_chamado')
+@login_required
+def ajuda_abrir_chamado():
+    return render_template('ajuda_abrir_chamado.html')
+
+
+@app.route('/ajuda/consultar_servico')
+@login_required
+def ajuda_consultar_servico():
+    return render_template('ajuda_consultar_servico.html')
+
+
+@app.route('/ajuda/confirmar_servico')
+@login_required
+def ajuda_confirmar_servico():
+    return render_template('ajuda_confirmar_servico.html')
+
+
+@app.route('/ajuda/executar_servico')
+@login_required
+def ajuda_executar_servico():
+    return render_template('ajuda_executar_servico.html')
+
+
+@app.route('/ajuda/relatorio')
+@login_required
+def ajuda_relatorio():
+    return render_template('ajuda_relatorio.html')
+
+
+@app.route('/ajuda/cadastro')
+@login_required
+def ajuda_cadastro():
+    return render_template('ajuda_cadastro.html')
 
 
 @app.route('/erro')
@@ -636,7 +631,6 @@ def erro():
 
 
 # ─── INICIALIZAÇÃO ────────────────────────────────────────────────────────────
-
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
