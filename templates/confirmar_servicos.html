@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmação de Serviços – Solicita Senac</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo5.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+  <style>
+    body { font-family: Arial, sans-serif; background: #d1e3ff; }
+    .table-custom th { background: #007bff; color: #fff; padding: 12px; }
+    .table-custom td { padding: 12px; text-align: center; vertical-align: middle; }
+    .table-custom tr:nth-child(odd) td  { background: #f8f9fa; }
+    .table-custom tr:nth-child(even) td { background: #ffecb5; }
+    .table-custom tr:hover td { background: #ffddc1; }
+    .badge-aberto     { background: #ffc107; color: #000; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+    .badge-confirmado { background: #17a2b8; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+    .badge-executado  { background: #28a745; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+    .badge-cancelado  { background: #dc3545; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+    .btn-decidir { background: #ff8a1d; border: none; color: #fff; border-radius: 5px; padding: 5px 14px; font-size: 13px; cursor: pointer; }
+    .btn-decidir:hover { background: #e07010; }
+  </style>
+</head>
+<body>
+<div class="hero_area">
+  <header class="header_section">
+    <div class="header_top">
+      <div class="container-fluid">
+        <div class="contact_nav">
+          <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
+          <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="header_bottom">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+          <img src="{{ url_for('static', filename='images/logo5.png') }}" alt="Logo">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <a href="{{ url_for('servicos') }}" class="btn btn-outline-primary btn-sm">
+        <i class="fa fa-arrow-left"></i> Voltar
+      </a>
+      <h2 class="mb-0"><i class="fa fa-check-circle text-warning"></i> Confirmação de Serviços</h2>
+      <span></span>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show">
+        {{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="table-responsive">
+      <table class="table table-custom table-bordered">
+        <thead>
+          <tr>
+            <th>N° Chamado</th>
+            <th>Solicitante</th>
+            <th>Unidade</th>
+            <th>Assunto</th>
+            <th>Local</th>
+            <th>Status</th>
+            <th>Decidir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if resultado %}
+            {% for row in resultado %}
+            <tr>
+              <td>{{ row.servicos_id_seq }}</td>
+              <td>{{ row.nome_solicitante }}</td>
+              <td>{{ row.unidade }}</td>
+              <td>{{ row.assunto }}</td>
+              <td>{{ row.local }}</td>
+              <td><span class="badge-{{ row.status|lower }}">{{ row.status }}</span></td>
+              <td>
+                <button class="btn-decidir btn-abrir-modal"
+                  data-id="{{ row.servicos_id_seq }}">
+                  <i class="fa fa-gavel"></i> Decidir
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr><td colspan="7" class="text-center text-muted">Nenhum chamado pendente de confirmação.</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{# ── MODAL DECIDIR ── #}
+<div class="modal fade" id="modalDecidir" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#ff8a1d;">
+        <h5 class="modal-title text-white"><i class="fa fa-gavel"></i> Decidir — Chamado N° <span id="mNumChamado"></span></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="modalDecidirBody">
+        <div class="text-center py-4"><div class="spinner-border text-warning"></div></div>
+      </div>
+      <div class="modal-footer">
+        <form id="formDecidir" method="POST">
+          <input type="hidden" name="servicos_id_seq" id="inputIdServico">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <button type="submit" name="decisao" value="descartado"
+            class="btn btn-danger"
+            onclick="document.getElementById('formDecidir').action='/decidir_servico'">
+            <i class="fa fa-times-circle"></i> Descartar
+          </button>
+          <button type="submit" name="decisao" value="confirmado"
+            class="btn btn-success"
+            onclick="document.getElementById('formDecidir').action='/decidir_servico'">
+            <i class="fa fa-check-circle"></i> Confirmar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="info_section mt-4">
+  <div class="container">
+    <h4>Entre em contato</h4>
+    <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
+      <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Maceió – AL</p></div></a></div>
+      <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
+      <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
+    </div></div></div></div>
+  </div>
+</section>
+<footer class="footer_section">
+  <div class="container"><p>&copy; <span id="ano"></span> Todos os direitos reservados</p></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.getElementById('ano').textContent = new Date().getFullYear();
+
+document.querySelectorAll('.btn-abrir-modal').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const id = this.dataset.id;
+    document.getElementById('mNumChamado').textContent = id;
+    document.getElementById('inputIdServico').value = id;
+    document.getElementById('modalDecidirBody').innerHTML =
+      '<div class="text-center py-4"><div class="spinner-border text-warning"></div></div>';
+
+    const modal = new bootstrap.Modal(document.getElementById('modalDecidir'));
+    modal.show();
+
+    fetch(`/get_service_details/${id}`)
+      .then(r => r.json())
+      .then(d => {
+        const prazo = d.prazo ? new Date(d.prazo).toLocaleDateString('pt-BR') : '—';
+        const fotoHtml = d.foto
+          ? `<div class="text-center mt-3">
+               <img src="/static/${d.foto}" class="img-fluid rounded shadow" style="max-height:300px;" alt="Foto">
+             </div>`
+          : `<div class="text-center text-muted mt-2"><i class="fas fa-image fa-2x"></i><p>Sem imagem</p></div>`;
+
+        document.getElementById('modalDecidirBody').innerHTML = `
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="card border-0 bg-light h-100">
+                <div class="card-body">
+                  <h6 class="text-warning fw-bold mb-3"><i class="fas fa-clipboard-list"></i> Dados do Chamado</h6>
+                  <p><strong>N° Chamado:</strong> ${d.servicos_id_seq}</p>
+                  <p><strong>Assunto:</strong> ${d.assunto || '—'}</p>
+                  <p><strong>Local:</strong> ${d.local || '—'}</p>
+                  <p><strong>Prazo:</strong> ${prazo}</p>
+                  <p><strong>Funcionário:</strong> ${d.funcionario || '—'}</p>
+                  <p><strong>Setor:</strong> ${d.setor || '—'}</p>
+                  <p><strong>Unidade:</strong> ${d.unidade || '—'}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card border-0 bg-light h-100">
+                <div class="card-body">
+                  <h6 class="text-warning fw-bold mb-3"><i class="fas fa-user"></i> Dados do Solicitante</h6>
+                  <p><strong>Nome:</strong> ${d.nome_solicitante || '—'}</p>
+                  <p><strong>E-mail:</strong> ${d.email_solicitante || '—'}</p>
+                  <p><strong>Telefone:</strong> ${d.telefone || '—'}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card border-0 bg-light">
+                <div class="card-body">
+                  <h6 class="text-warning fw-bold mb-2"><i class="fas fa-align-left"></i> Informações Adicionais</h6>
+                  <p class="mb-0">${d.informacoes_adicionais || 'Nenhuma.'}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">${fotoHtml}</div>
+          </div>`;
+      })
+      .catch(() => {
+        document.getElementById('modalDecidirBody').innerHTML =
+          '<div class="alert alert-danger">Erro ao carregar os detalhes.</div>';
+      });
+  });
+});
+</script>
+</body>
+</html>
