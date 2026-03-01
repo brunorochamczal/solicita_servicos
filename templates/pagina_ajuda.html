@@ -18,13 +18,68 @@
       padding: 5px 15px; font-size: 15px; text-decoration: none; z-index: 1000; display: inline-block;
     }
     .voltar-button:hover { background: #0056b3; color: #fff; }
+    
+    /* Container dos links de ajuda - div laranja */
+    .ajuda-links-container {
+      background-color: #f57f00;
+      border-radius: 40px;
+      padding: 25px 20px;
+      margin-top: 30px;
+      position: relative;
+      z-index: 5;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
     .ajuda-link {
       display: block; width: 100%; padding: 12px 18px; margin-bottom: 10px;
       text-align: center; text-decoration: none; color: #fff;
-      background-color: #f57f00; border-radius: 40px; font-size: 16px; transition: background .2s;
+      background-color: transparent; 
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 40px; font-size: 16px; transition: all .2s;
     }
-    .ajuda-link:hover { background-color: #ffb74d; color: #fff; text-decoration: none; }
-    .slider_section { padding: 40px 0 30px; }
+    .ajuda-link:hover { 
+      background-color: #ffb74d; 
+      color: #fff; 
+      text-decoration: none; 
+      border-color: transparent;
+    }
+    
+    /* Container da imagem do homem */
+    .homem-container {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-bottom: -30px; /* Puxa a imagem para baixo para encostar na div laranja */
+      z-index: 10;
+    }
+    
+    .homem-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      position: relative;
+      bottom: -20px; /* Ajuste fino para posicionar os pés */
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+    }
+    
+    /* Ajuste para mobile */
+    @media (max-width: 768px) {
+      .homem-container {
+        margin-bottom: 0;
+      }
+      .homem-img {
+        bottom: 0;
+        max-width: 80%;
+        margin: 0 auto;
+      }
+      .ajuda-links-container {
+        margin-top: 0;
+      }
+    }
+    
+    .slider_section { padding: 40px 0 0; }
   </style>
 </head>
 <body>
@@ -63,7 +118,10 @@
               O sistema auxilia com manutenções de equipamentos, serviços de limpeza e muito mais.
               Selecione um tópico abaixo para saber como usar cada funcionalidade:
             </p>
-
+          </div>
+          
+          <!-- Div laranja com os links de ajuda -->
+          <div class="ajuda-links-container">
             <a href="{{ url_for('ajuda_abrir_chamado') }}" class="ajuda-link">
               <i class="fa fa-ticket"></i> Como abrir um chamado?
             </a>
@@ -84,9 +142,13 @@
             </a>
           </div>
         </div>
+        
         <div class="col-md-6">
-          <div class="img-box">
-            <img src="{{ url_for('static', filename='images/primeira.png') }}" alt="" class="img-fluid">
+          <!-- Container da imagem do homem com posicionamento especial -->
+          <div class="homem-container">
+            <img src="{{ url_for('static', filename='images/primeira.png') }}" 
+                 alt="Homem de negócios" 
+                 class="homem-img img-fluid">
           </div>
         </div>
       </div>
