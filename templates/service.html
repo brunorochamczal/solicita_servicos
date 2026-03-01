@@ -35,7 +35,7 @@
     <div class="container-fluid">
       <div class="contact_nav">
         <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
-        <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+        <a href="/cdn-cgi/l/email-protection#9ae9f5f6f3f9f3eefbe9fff4fbf9dafdf7fbf3f6b4f9f5f7"><i class="fa fa-envelope"></i><span>Email: <span class="__cf_email__" data-cfemail="d7a4b8bbbeb4bea3b6a4b2b9b6b497b0bab6bebbf9b4b8ba">[email&#160;protected]</span></span></a>
       </div>
     </div>
   </div>
@@ -82,8 +82,12 @@
         </div>
         <div class="col-md-6">
           <label for="funcionario">Funcionário responsável *</label>
-          <input type="text" class="form-control" name="funcionario" id="funcionario"
-                 placeholder="Nome do funcionário" required>
+          <select name="funcionario" id="funcionario" class="form-select" required>
+            <option value="" disabled selected>Selecione o funcionário</option>
+            {% for f in funcionarios %}
+            <option value="{{ f }}">{{ f }}</option>
+            {% endfor %}
+          </select>
         </div>
       </div>
 
@@ -144,7 +148,7 @@
         <div class="col-md-6">
           <label for="nome_solicitante">Nome do solicitante *</label>
           <input type="text" name="nome_solicitante" class="form-control" id="nome_solicitante"
-                 placeholder="Digite seu nome" required>
+                 value="{{ nome_usuario }}" readonly required>
         </div>
         <div class="col-md-6">
           <label for="email_solicitante">E-mail do solicitante *</label>
@@ -185,7 +189,7 @@
     <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
       <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Poço, Maceió – AL</p></div></a></div>
       <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
-      <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
+      <div class="col-md-4"><a href="/cdn-cgi/l/email-protection#6b1804070208021f0a180e050a082b0c060a020745080406"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p><span class="__cf_email__" data-cfemail="94e7fbf8fdf7fde0f5e7f1faf5f7d4f3f9f5fdf8baf7fbf9">[email&#160;protected]</span></p></div></a></div>
     </div></div></div></div>
   </div>
 </section>
@@ -193,16 +197,6 @@
   <div class="container"><p>&copy; <span id="ano"></span> Todos os direitos reservados</p></div>
 </footer>
 
-<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
-<script>
-  document.getElementById('ano').textContent = new Date().getFullYear();
-  // Máscara de telefone
-  document.getElementById('telefone').addEventListener('input', function(e) {
-    var x = e.target.value.replace(/\D/g,'').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
-    e.target.value = !x[2] ? x[1] : '('+x[1]+') '+x[2]+(x[3] ? '-'+x[3] : '');
-  });
-</script>
-</body>
-</html>
+<script src="{{ url_for('static', filename='js/custom.js')
