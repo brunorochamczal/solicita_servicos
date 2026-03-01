@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Como Consultar Serviços – Ajuda Solicita Senac</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo5.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+  <style>
+    body { background: #d1e3ff; }
+    .ajuda-card { background:#fff; border-radius:10px; padding:30px; margin-top:60px;
+      box-shadow:0 2px 12px rgba(0,0,0,.1); max-width:860px; margin-left:auto; margin-right:auto; }
+    .step { background:#f0f7ff; border-left:4px solid #007bff; padding:12px 16px;
+      margin-bottom:12px; border-radius:0 6px 6px 0; }
+    .step strong { color:#007bff; }
+    .voltar-btn { margin-top:55px; margin-left:20px; }
+  </style>
+</head>
+<body>
+<div class="hero_area">
+  <header class="header_section">
+    <div class="header_top"><div class="container-fluid"><div class="contact_nav">
+      <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>+55 (82) 2122-7858</span></a>
+      <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>solicitasenac@gmail.com</span></a>
+    </div></div></div>
+    <div class="header_bottom"><div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+        <img src="{{ url_for('static', filename='images/logo5.png') }}" alt="Logo">
+      </a>
+    </div></div>
+  </header>
+
+  <div class="voltar-btn">
+    <a href="{{ url_for('ajuda') }}" class="btn btn-primary btn-sm">
+      <i class="fa fa-arrow-left"></i> Voltar à Ajuda
+    </a>
+  </div>
+
+  <div class="container pb-5">
+    <div class="ajuda-card">
+      <h2 style="color:#007bff"><i class="fa fa-search"></i> Como Consultar Serviços</h2>
+      <p class="text-muted mb-4">Disponível para todos os perfis de usuário.</p>
+      <hr>
+      <div class="step"><strong>Passo 1 – Acesse Serviços:</strong> Na tela inicial, clique em <strong>Serviços</strong>.</div>
+      <div class="step"><strong>Passo 2 – Consultar Serviços:</strong> Clique em <strong>Consultar Serviços</strong>.</div>
+      <div class="step"><strong>Passo 3 – Filtros:</strong> Use os campos no topo da tabela para filtrar por N° do chamado, Solicitante, Unidade, Assunto, Local ou Status.</div>
+      <div class="step"><strong>Passo 4 – Ver detalhes:</strong> Clique no botão <strong>Ver</strong> de qualquer chamado para abrir um painel com todos os dados, incluindo a foto anexada, se houver.</div>
+      <div class="step"><strong>Passo 5 – Gerar PDF:</strong> Clique em <strong>Gerar PDF</strong> para exportar a listagem filtrada em PDF.</div>
+
+    </div>
+  </div>
+
+  <footer class="footer_section">
+    <div class="container"><p>&copy; <span id="ano"></span> Todos os direitos reservados</p></div>
+  </footer>
+</div>
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script>document.getElementById('ano').textContent = new Date().getFullYear();</script>
+</body>
+</html>
