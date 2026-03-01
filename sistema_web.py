@@ -13,7 +13,18 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 
 app = Flask(__name__)
+
+@app.before_request
+def limpar_sessao_invalida():
+    """Se a sessão estiver corrompida (cookie antigo/inválido), limpa silenciosamente."""
+    try:
+        _ = session.get('user_id')
+    except Exception:
+        session.clear()
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave_padrao_desenvolvimento_1212')
+app.config['SESSION_COOKIE_NAME'] = 'solicita_session'  # nome único evita conflito com cookies antigos
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_SECURE'] = True  # HTTPS no Render
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
