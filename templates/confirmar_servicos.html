@@ -10,17 +10,14 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
   <style>
-    body { font-family: Arial, sans-serif; background: #d1e3ff; }
-    .table-custom th { background: #007bff; color: #fff; padding: 12px; }
+    body { background: #d1e3ff; }
+    .table-custom th { background: #ff8a1d; color: #fff; padding: 12px; }
     .table-custom td { padding: 12px; text-align: center; vertical-align: middle; }
     .table-custom tr:nth-child(odd) td  { background: #f8f9fa; }
-    .table-custom tr:nth-child(even) td { background: #ffecb5; }
-    .table-custom tr:hover td { background: #ffddc1; }
-    .badge-aberto     { background: #ffc107; color: #000; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
-    .badge-confirmado { background: #17a2b8; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
-    .badge-executado  { background: #28a745; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
-    .badge-cancelado  { background: #dc3545; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
-    .btn-decidir { background: #ff8a1d; border: none; color: #fff; border-radius: 5px; padding: 5px 14px; font-size: 13px; cursor: pointer; }
+    .table-custom tr:nth-child(even) td { background: #fff3cd; }
+    .table-custom tr:hover td { background: #ffe0a0; }
+    .btn-decidir { background: #ff8a1d; border: none; color: #fff; border-radius: 5px;
+                   padding: 5px 14px; font-size: 13px; cursor: pointer; }
     .btn-decidir:hover { background: #e07010; }
   </style>
 </head>
@@ -46,10 +43,10 @@
 
   <div class="container my-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <a href="{{ url_for('servicos') }}" class="btn btn-outline-primary btn-sm">
+      <a href="{{ url_for('servicos') }}" class="btn btn-outline-warning btn-sm">
         <i class="fa fa-arrow-left"></i> Voltar
       </a>
-      <h2 class="mb-0"><i class="fa fa-check-circle text-warning"></i> Confirmação de Serviços</h2>
+      <h2 class="mb-0"><i class="fa fa-gavel" style="color:#ff8a1d;"></i> Confirmação de Serviços</h2>
       <span></span>
     </div>
 
@@ -73,7 +70,7 @@
             <th>Assunto</th>
             <th>Local</th>
             <th>Status</th>
-            <th>Decidir</th>
+            <th>Ação</th>
           </tr>
         </thead>
         <tbody>
@@ -85,17 +82,21 @@
               <td>{{ row.unidade }}</td>
               <td>{{ row.assunto }}</td>
               <td>{{ row.local }}</td>
-              <td><span class="badge-{{ row.status|lower }}">{{ row.status }}</span></td>
+              <td><span class="badge bg-warning text-dark">aberto</span></td>
               <td>
                 <button class="btn-decidir btn-abrir-modal"
-                  data-id="{{ row.servicos_id_seq }}">
-                  <i class="fa fa-gavel"></i> Decidir
+                        data-id="{{ row.servicos_id_seq }}">
+                  <i class="fas fa-gavel"></i> Decidir
                 </button>
               </td>
             </tr>
             {% endfor %}
           {% else %}
-          <tr><td colspan="7" class="text-center text-muted">Nenhum chamado pendente de confirmação.</td></tr>
+          <tr>
+            <td colspan="7" class="text-center text-muted py-4">
+              Nenhum chamado aguardando confirmação.
+            </td>
+          </tr>
           {% endif %}
         </tbody>
       </table>
@@ -105,29 +106,48 @@
 
 {# ── MODAL DECIDIR ── #}
 <div class="modal fade" id="modalDecidir" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header" style="background:#ff8a1d;">
-        <h5 class="modal-title text-white"><i class="fa fa-gavel"></i> Decidir — Chamado N° <span id="mNumChamado"></span></h5>
+        <h5 class="modal-title text-white">
+          <i class="fa fa-gavel"></i> Decidir – Chamado N° <span id="mNumChamado"></span>
+        </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body" id="modalDecidirBody">
-        <div class="text-center py-4"><div class="spinner-border text-warning"></div></div>
-      </div>
-      <div class="modal-footer">
-        <form id="formDecidir" method="POST">
+
+      <div class="modal-body">
+        {# Detalhes carregados via AJAX #}
+        <div id="modalDecidirBody">
+          <div class="text-center py-4"><div class="spinner-border text-warning"></div></div>
+        </div>
+
+        <hr>
+
+        {# Área de observação + botões de decisão #}
+        <form id="formDecidir" method="POST" action="{{ url_for('decidir_servico') }}">
           <input type="hidden" name="servicos_id_seq" id="inputIdServico">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-          <button type="submit" name="decisao" value="descartado"
-            class="btn btn-danger"
-            onclick="document.getElementById('formDecidir').action='/decidir_servico'">
-            <i class="fa fa-times-circle"></i> Descartar
-          </button>
-          <button type="submit" name="decisao" value="confirmado"
-            class="btn btn-success"
-            onclick="document.getElementById('formDecidir').action='/decidir_servico'">
-            <i class="fa fa-check-circle"></i> Confirmar
-          </button>
+
+          <div class="mb-3">
+            <label for="observacao_confirmacao" class="form-label fw-bold">
+              <i class="fa fa-comment"></i> Observação
+              <small class="text-muted">(opcional – registrada no banco junto à decisão)</small>
+            </label>
+            <textarea class="form-control" name="observacao_confirmacao"
+                      id="observacao_confirmacao" rows="3"
+                      placeholder="Ex: Prioridade alta. Confirmar com manutenção."></textarea>
+          </div>
+
+          <div class="d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              <i class="fa fa-times"></i> Fechar
+            </button>
+            <button type="submit" name="decisao" value="descartado" class="btn btn-danger">
+              <i class="fa fa-ban"></i> Descartar Chamado
+            </button>
+            <button type="submit" name="decisao" value="confirmado" class="btn btn-success">
+              <i class="fa fa-check-circle"></i> Confirmar Chamado
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -152,55 +172,62 @@
 <script>
 document.getElementById('ano').textContent = new Date().getFullYear();
 
-document.querySelectorAll('.btn-abrir-modal').forEach(btn => {
+document.querySelectorAll('.btn-abrir-modal').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    const id = this.dataset.id;
+    var id = this.dataset.id;
     document.getElementById('mNumChamado').textContent = id;
     document.getElementById('inputIdServico').value = id;
+    document.getElementById('observacao_confirmacao').value = '';
     document.getElementById('modalDecidirBody').innerHTML =
       '<div class="text-center py-4"><div class="spinner-border text-warning"></div></div>';
 
-    const modal = new bootstrap.Modal(document.getElementById('modalDecidir'));
+    var modal = new bootstrap.Modal(document.getElementById('modalDecidir'));
     modal.show();
 
-    fetch(`/get_service_details/${id}`)
-      .then(r => r.json())
-      .then(d => {
-        const prazo = d.prazo ? new Date(d.prazo).toLocaleDateString('pt-BR') : '—';
-        const fotoHtml = d.foto
-          ? `<div class="text-center mt-3">
-               <img src="/static/${d.foto}" class="img-fluid rounded shadow" style="max-height:300px;" alt="Foto">
-             </div>`
-          : `<div class="text-center text-muted mt-2"><i class="fas fa-image fa-2x"></i><p>Sem imagem</p></div>`;
+    fetch('/get_service_details/' + id)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var prazo = d.prazo ? new Date(d.prazo).toLocaleDateString('pt-BR') : '—';
+        var fotoHtml = d.foto
+          ? '<div class="text-center mt-3"><img src="/static/' + d.foto + '" class="img-fluid rounded shadow" style="max-height:280px;" alt="Foto do chamado"></div>'
+          : '<div class="text-center text-muted mt-2"><i class="fas fa-image fa-2x"></i><p class="small">Sem imagem anexa</p></div>';
 
-        document.getElementById('modalDecidirBody').innerHTML = `
-          <div class="row g-3">
-            <div class="col-md-6">
-              <div class="card border-0 bg-light h-100">
-                <div class="card-body">
-                  <h6 class="text-warning fw-bold mb-3"><i class="fas fa-clipboard-list"></i> Dados do Chamado</h6>
-                  <p><strong>N° Chamado:</strong> ${d.servicos_id_seq}</p>
-                  <p><strong>Assunto:</strong> ${d.assunto || '—'}</p>
-                  <p><strong>Local:</strong> ${d.local || '—'}</p>
-                  <p><strong>Prazo:</strong> ${prazo}</p>
-                  <p><strong>Funcionário:</strong> ${d.funcionario || '—'}</p>
-                  <p><strong>Setor:</strong> ${d.setor || '—'}</p>
-                  <p><strong>Unidade:</strong> ${d.unidade || '—'}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card border-0 bg-light h-100">
-                <div class="card-body">
-                  <h6 class="text-warning fw-bold mb-3"><i class="fas fa-user"></i> Dados do Solicitante</h6>
-                  <p><strong>Nome:</strong> ${d.nome_solicitante || '—'}</p>
-                  <p><strong>E-mail:</strong> ${d.email_solicitante || '—'}</p>
-                  <p><strong>Telefone:</strong> ${d.telefone || '—'}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="card border-0 bg-light">
-                <div class="card-body">
-                  <h6 class="text-warning fw-bold mb-2"><i class="fas fa-align-left"></i> Informações Adicionais</h6>
-                  <p class="mb-0">${d.i
+        document.getElementById('modalDecidirBody').innerHTML =
+          '<div class="row g-3">' +
+            '<div class="col-md-6">' +
+              '<div class="card border-0 bg-light h-100"><div class="card-body">' +
+                '<h6 class="fw-bold mb-3" style="color:#ff8a1d"><i class="fas fa-clipboard-list"></i> Dados do Chamado</h6>' +
+                '<p class="mb-1"><strong>N°:</strong> ' + d.servicos_id_seq + '</p>' +
+                '<p class="mb-1"><strong>Assunto:</strong> ' + (d.assunto || '—') + '</p>' +
+                '<p class="mb-1"><strong>Local:</strong> ' + (d.local || '—') + '</p>' +
+                '<p class="mb-1"><strong>Prazo:</strong> ' + prazo + '</p>' +
+                '<p class="mb-0"><strong>Funcionário:</strong> ' + (d.funcionario || '—') + '</p>' +
+              '</div></div>' +
+            '</div>' +
+            '<div class="col-md-6">' +
+              '<div class="card border-0 bg-light h-100"><div class="card-body">' +
+                '<h6 class="fw-bold mb-3" style="color:#ff8a1d"><i class="fas fa-user"></i> Solicitante</h6>' +
+                '<p class="mb-1"><strong>Nome:</strong> ' + (d.nome_solicitante || '—') + '</p>' +
+                '<p class="mb-1"><strong>E-mail:</strong> ' + (d.email_solicitante || '—') + '</p>' +
+                '<p class="mb-1"><strong>Telefone:</strong> ' + (d.telefone || '—') + '</p>' +
+                '<p class="mb-0"><strong>Unidade:</strong> ' + (d.unidade || '—') + '</p>' +
+              '</div></div>' +
+            '</div>' +
+            '<div class="col-12">' +
+              '<div class="card border-0 bg-light"><div class="card-body">' +
+                '<h6 class="fw-bold mb-2" style="color:#ff8a1d"><i class="fas fa-align-left"></i> Informações Adicionais</h6>' +
+                '<p class="mb-0">' + (d.informacoes_adicionais || 'Nenhuma informação adicional.') + '</p>' +
+              '</div></div>' +
+            '</div>' +
+            '<div class="col-12">' + fotoHtml + '</div>' +
+          '</div>';
+      })
+      .catch(function() {
+        document.getElementById('modalDecidirBody').innerHTML =
+          '<div class="alert alert-danger">Erro ao carregar os detalhes do chamado.</div>';
+      });
+  });
+});
+</script>
+</body>
+</html>
