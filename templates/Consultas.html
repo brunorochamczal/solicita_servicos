@@ -31,7 +31,7 @@
       <div class="container-fluid">
         <div class="contact_nav">
           <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
-          <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+          <a href="/cdn-cgi/l/email-protection#f88b9794919b918c998b9d96999bb89f95999194d69b9795"><i class="fa fa-envelope"></i><span>Email: <span class="__cf_email__" data-cfemail="691a0605000a001d081a0c07080a290e04080005470a0604">[email&#160;protected]</span></span></a>
         </div>
       </div>
     </div>
@@ -108,10 +108,16 @@
                 <span class="badge-{{ st }}">{{ st }}</span>
               </td>
               <td>
-                <a href="{{ url_for('servico_detalhe', servicos_id_seq=(row.servicos_id_seq if row is mapping else row[0])) }}"
-                   class="btn btn-sm btn-primary">
+                <button class="btn btn-sm btn-primary btn-ver"
+                  data-id="{{ row.servicos_id_seq if row is mapping else row[0] }}"
+                  data-chamado="{{ row.servicos_id_seq if row is mapping else row[0] }}"
+                  data-solicitante="{{ row.nome_solicitante if row is mapping else row[1] }}"
+                  data-unidade="{{ row.unidade if row is mapping else row[2] }}"
+                  data-assunto="{{ row.assunto if row is mapping else row[3] }}"
+                  data-local="{{ row.local if row is mapping else row[4] }}"
+                  data-status="{{ (row.status if row is mapping else row[5])|lower }}">
                   <i class="fa fa-eye"></i> Ver
-                </a>
+                </button>
               </td>
             </tr>
             {% endfor %}
@@ -128,16 +134,16 @@
   </div>
 </div>
 
-{# Modal de detalhes (preenchido via JS) #}
+{# Modal de detalhes completo #}
 <div class="modal fade" id="modalDetalhe" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalTitulo">Detalhes do Chamado</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title"><i class="fa fa-ticket"></i> Chamado N° <span id="mChamado"></span></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body" id="modalBody">
-        <div class="text-center"><div class="spinner-border text-primary"></div></div>
+        <div class="text-center py-4"><div class="spinner-border text-primary"></div></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -152,7 +158,7 @@
     <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
       <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Maceió – AL</p></div></a></div>
       <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
-      <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
+      <div class="col-md-4"><a href="/cdn-cgi/l/email-protection#9be8f4f7f2f8f2effae8fef5faf8dbfcf6faf2f7b5f8f4f6"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p><span class="__cf_email__" data-cfemail="d3a0bcbfbab0baa7b2a0b6bdb2b093b4beb2babffdb0bcbe">[email&#160;protected]</span></p></div></a></div>
     </div></div></div></div>
   </div>
 </section>
@@ -160,7 +166,7 @@
   <div class="container"><p>&copy; <span id="ano"></span> Todos os direitos reservados</p></div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
 <script>
@@ -189,10 +195,76 @@ function filtrar() {
   if (sem) sem.style.display = found === 0 ? '' : 'none';
 }
 
+// Abrir modal com detalhes via AJAX
+document.querySelectorAll('.btn-ver').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const id = this.dataset.id;
+    document.getElementById('mChamado').textContent = id;
+    document.getElementById('modalBody').innerHTML =
+      '<div class="text-center py-4"><div class="spinner-border text-primary"></div></div>';
+    const modal = new bootstrap.Modal(document.getElementById('modalDetalhe'));
+    modal.show();
+
+    fetch(`/get_service_details/${id}`)
+      .then(r => r.json())
+      .then(d => {
+        const badgeMap = { aberto:'warning', confirmado:'info', executado:'success', cancelado:'danger' };
+        const statusClass = badgeMap[d.status] || 'secondary';
+        const fotoHtml = d.foto
+          ? `<div class="text-center mt-3">
+               <img src="/static/${d.foto}" class="img-fluid rounded shadow" style="max-height:320px;" alt="Foto">
+             </div>`
+          : `<div class="text-center text-muted mt-3"><i class="fa fa-image fa-2x"></i><p>Sem imagem anexa</p></div>`;
+        const prazo = d.prazo ? new Date(d.prazo).toLocaleDateString('pt-BR') : '—';
+
+        document.getElementById('modalBody').innerHTML = `
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="card h-100 border-0 bg-light">
+                <div class="card-body">
+                  <h6 class="text-primary fw-bold mb-3"><i class="fa fa-info-circle"></i> Dados do Chamado</h6>
+                  <p><strong>N° Chamado:</strong> ${d.servicos_id_seq}</p>
+                  <p><strong>Assunto:</strong> ${d.assunto || '—'}</p>
+                  <p><strong>Local:</strong> ${d.local || '—'}</p>
+                  <p><strong>Prazo:</strong> ${prazo}</p>
+                  <p><strong>Funcionário:</strong> ${d.funcionario || '—'}</p>
+                  <p><strong>Status:</strong> <span class="badge bg-${statusClass}">${d.status}</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 border-0 bg-light">
+                <div class="card-body">
+                  <h6 class="text-primary fw-bold mb-3"><i class="fa fa-user"></i> Dados do Solicitante</h6>
+                  <p><strong>Nome:</strong> ${d.nome_solicitante || '—'}</p>
+                  <p><strong>E-mail:</strong> ${d.email_solicitante || '—'}</p>
+                  <p><strong>Telefone:</strong> ${d.telefone || '—'}</p>
+                  <p><strong>Unidade:</strong> ${d.unidade || '—'}</p>
+                  <p><strong>Setor:</strong> ${d.setor || '—'}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card border-0 bg-light">
+                <div class="card-body">
+                  <h6 class="text-primary fw-bold mb-2"><i class="fa fa-align-left"></i> Informações Adicionais</h6>
+                  <p class="mb-0">${d.informacoes_adicionais || 'Nenhuma informação adicional.'}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">${fotoHtml}</div>
+          </div>`;
+      })
+      .catch(() => {
+        document.getElementById('modalBody').innerHTML =
+          '<div class="alert alert-danger">Erro ao carregar os detalhes.</div>';
+      });
+  });
+});
+
 // Gerar PDF
 document.getElementById('btnPdf').addEventListener('click', function() {
   const tabela = document.getElementById('tabelaServicos').cloneNode(true);
-  // Remove coluna Ação no PDF
   tabela.querySelectorAll('tr').forEach(r => { if(r.cells[6]) r.deleteCell(6); });
   const content = document.createElement('div');
   content.innerHTML = '<h2 style="text-align:center">Relatório de Serviços</h2>' + tabela.outerHTML;
