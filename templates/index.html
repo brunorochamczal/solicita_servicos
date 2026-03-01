@@ -45,7 +45,7 @@
       <div class="container-fluid">
         <div class="contact_nav">
           <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
-          <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+          <a href="/cdn-cgi/l/email-protection#90e3fffcf9f3f9e4f1e3f5fef1f3d0f7fdf1f9fcbef3fffd"><i class="fa fa-envelope"></i><span>Email: <span class="__cf_email__" data-cfemail="01726e6d686268756072646f606241666c60686d2f626e6c">[email&#160;protected]</span></span></a>
         </div>
       </div>
     </div>
@@ -88,12 +88,21 @@
       <div class="content-wrapper">
         <img src="{{ url_for('static', filename='images/segunda.png') }}" alt="" class="side-image">
         <div class="button-container">
+          {% if session.get('user_permissao') == 'Administrador' %}
           <div class="box">
             <a href="{{ url_for('cadastros') }}">
               <div class="img-box"><img src="{{ url_for('static', filename='images/cadastros.png') }}" alt=""></div>
               <div class="detail-box"><h4>Cadastro<br><small>(funcionários e usuários)</small></h4></div>
             </a>
           </div>
+          {% else %}
+          <div class="box" style="opacity:0.4; cursor:not-allowed;" title="Acesso restrito a administradores">
+            <div>
+              <div class="img-box"><img src="{{ url_for('static', filename='images/cadastros.png') }}" alt=""></div>
+              <div class="detail-box"><h4>Cadastro<br><small>(sem permissão)</small></h4></div>
+            </div>
+          </div>
+          {% endif %}
           <div class="box">
             <a href="{{ url_for('relatorio') }}">
               <div class="img-box"><img src="{{ url_for('static', filename='images/rela.png') }}" alt=""></div>
@@ -117,7 +126,7 @@
       <div class="row"><div class="col-lg-10 mx-auto"><div class="info_items"><div class="row">
         <div class="col-md-4"><a href="#"><div class="item"><div class="img-box"><i class="fa fa-map-marker"></i></div><p>R. Pedro Paulino, 77 – Poço, Maceió – AL, 57025-340</p></div></a></div>
         <div class="col-md-4"><a href="tel:+558221227858"><div class="item"><div class="img-box"><i class="fa fa-phone"></i></div><p>+55 (82) 2122-7858</p></div></a></div>
-        <div class="col-md-4"><a href="mailto:solicitasenac@gmail.com"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p>solicitasenac@gmail.com</p></div></a></div>
+        <div class="col-md-4"><a href="/cdn-cgi/l/email-protection#cfbca0a3a6aca6bbaebcaaa1aeac8fa8a2aea6a3e1aca0a2"><div class="item"><div class="img-box"><i class="fa fa-envelope"></i></div><p><span class="__cf_email__" data-cfemail="6d1e0201040e04190c1e08030c0e2d0a000c0401430e0200">[email&#160;protected]</span></p></div></a></div>
       </div></div></div></div>
     </div>
   </section>
@@ -127,10 +136,4 @@
   </footer>
 </div>
 
-<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
-<script>document.getElementById('displayDateYear').textContent = new Date().getFullYear();</script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="{{ url_for('static', filename='js/jquery-3.
