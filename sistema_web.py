@@ -116,12 +116,12 @@ def gerar_pdf_bytes(servicos):
 
     # ── Largura disponível e proporção das colunas ────────────────────────────
     usable_w = PAGE_W - 2 * MARGIN   # ~810 pt
-    # N°  | Assunto | Funcionário | Prazo  | Setor  | Solicitante | Telefone | Unidade | Informações
-    col_proportions = [0.06, 0.14, 0.11, 0.08, 0.09, 0.10, 0.10, 0.13, 0.19]
+    # N°  | Assunto | Funcionário | Prazo  | Setor  | Solicitante | Telefone | Unidade | Informações | Status
+    col_proportions = [0.05, 0.12, 0.10, 0.07, 0.08, 0.09, 0.08, 0.10, 0.16, 0.15]
     col_widths = [usable_w * p for p in col_proportions]
 
     cabecalho = ["N°", "Assunto", "Funcionário", "Prazo", "Setor",
-                 "Solicitante", "Telefone", "Unidade", "Informações"]
+                 "Solicitante", "Telefone", "Unidade", "Informações", "Status"]
 
     # Linha de cabeçalho com Paragraphs para permitir wrap
     header_row = [Paragraph(h, header_style) for h in cabecalho]
@@ -565,7 +565,7 @@ def gerar_pdf():
             with conn.cursor() as cursor:
                 cursor.execute(
                     'SELECT servicos_id_seq, assunto, funcionario, prazo, setor, '
-                    'nome_solicitante, telefone, unidade, informacoes_adicionais FROM servicos'
+                    'nome_solicitante, telefone, unidade, informacoes_adicionais, status FROM servicos'
                 )
                 servicos = cursor.fetchall()
         pdf_buffer = gerar_pdf_bytes(servicos)
