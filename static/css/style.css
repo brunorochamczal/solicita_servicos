@@ -368,9 +368,39 @@ a:focus {
   color: #ff8a1d;
 }
 
+
+
+
+
+
+
+
+
+/***********************************PERNAS DO MECÂNICO******************************************/
+
 .slider_section .img-box img {
   width: 100%;
+  margin-bottom: -80px !important;
 }
+
+
+
+
+/* Ou se preferir usar padding no container */
+.slider_section .col-md-6:last-child {
+  padding-top: 40px !important; /* Desce apenas a coluna da imagem */
+}
+
+/***********************************PERNAS DO MECÂNICO******************************************/
+
+
+
+
+
+
+
+
+
 
 .feature_section {
   -webkit-transform: translateY(-50%);
@@ -757,12 +787,27 @@ a:focus {
   height: 100%;
 }
 
+
+
+
+
+
+/****************************************************IMAGEM NA FRENTE*********************************************/
 .info_section {
-  padding: 60px 0;
+  position: relative !important;
+  z-index: 100 !important; /* Valor alto para ficar acima */
+  width: 100%;
+  padding: 75px 0;
   background-color: #ff8a1d;
   text-align: center;
   color: #fff;
 }
+/****************************************************IMAGEM NA FRENTE*********************************************/
+
+
+
+
+
 
 .info_section h4 {
   text-transform: uppercase;
