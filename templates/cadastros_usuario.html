@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cadastro – Solicita Senac</title>
+  <title>Cadastro – Solicita Serviços</title>
   <link rel="icon" href="{{ url_for('static', filename='images/logo5.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
@@ -30,8 +30,8 @@
     <div class="header_top">
       <div class="container-fluid">
         <div class="contact_nav">
-          <a href="tel:+558221227858"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-7858</span></a>
-          <a href="mailto:solicitasenac@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitasenac@gmail.com</span></a>
+          <a href="tel:+558221220000"><i class="fa fa-phone"></i><span>Ligue: +55 (82) 2122-0000</span></a>
+          <a href="mailto:solicitaservicos@gmail.com"><i class="fa fa-envelope"></i><span>Email: solicitaservicos@gmail.com</span></a>
         </div>
       </div>
     </div>
@@ -76,13 +76,13 @@
           <label>Unidade *</label>
           <select name="unidade" required>
             <option value="" disabled selected>Selecione</option>
-            <option {% if unidade=='Carlos Milito - Maceió' %}selected{% endif %}>Carlos Milito - Maceió</option>
-            <option {% if unidade=='Centro de Gastronomia - Maceió' %}selected{% endif %}>Centro de Gastronomia - Maceió</option>
-            <option {% if unidade=='Posto Avançado - Palmeira Dos Índios' %}selected{% endif %}>Posto Avançado - Palmeira Dos Índios</option>
-            <option {% if unidade=='Posto Avançado - União Dos Palmares' %}selected{% endif %}>Posto Avançado - União Dos Palmares</option>
+            <option {% if unidade=='Unidade 1' %}selected{% endif %}>Unidade 1 - Maceió</option>
+            <option {% if unidade=='Unidade 2 - Maceió' %}selected{% endif %}>Unidade 2 - Maceió</option>
+            <option {% if unidade=='Posto 1 - Palmeira Dos Índios' %}selected{% endif %}>Posto 1 - Palmeira Dos Índios</option>
+            <option {% if unidade=='Posto 2 - União Dos Palmares' %}selected{% endif %}>Posto 2 - União Dos Palmares</option>
             <option {% if unidade=='Sede Administrativa - Maceió' %}selected{% endif %}>Sede Administrativa - Maceió</option>
-            <option {% if unidade=='Unidade do Agreste - Arapiraca' %}selected{% endif %}>Unidade do Agreste - Arapiraca</option>
-            <option {% if unidade=='Unidade Jaraguá - Em construção/Maceió' %}selected{% endif %}>Unidade Jaraguá - Em construção/Maceió</option>
+            <option {% if unidade=='Unidade 3 - Arapiraca' %}selected{% endif %}>Unidade 3 - Arapiraca</option>
+            <option {% if unidade=='Unidade 4 - Em construção/Maceió' %}selected{% endif %}>Unidade 4 - Em construção/Maceió</option>
           </select>
         </div>
         <div class="form-group">
